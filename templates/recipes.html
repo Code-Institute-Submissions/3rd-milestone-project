@@ -1,0 +1,11 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>BBQ Recipes</h1>
+
+{% for recipe in recipe_list %}
+<div>
+  <p>{{recipe.user }}</p>
+  <p>{{recipe.title }}</p>
+  <p>{{recipe.description}}</p>
+</div>
+{% endfor %} {% endblock content %}
