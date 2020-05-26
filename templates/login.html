@@ -1,15 +1,21 @@
 {% extends 'base.html'%} {% block content %}
 
-<section class="login-section">
-  <form method="POST" action="">
+<section class="section-login">
+  <form method="POST" action="" class="needs-validation" novalidate>
     {{ form.hidden_tag() }}
     <div class="form-group">
       {{ form.email.label(class="form-control-label") }} {{
-      form.email(class="form-control form-control-lg") }}
+      form.email(class="form-control form-control-lg required") }}
+      <div class="invalid-feedback">
+        <span>Your username is required.</span>
+      </div>
     </div>
     <div class="form-group">
       {{ form.password.label(class="form-control-label") }} {{
-      form.password(class="form-control form-control-lg") }}
+      form.password(class="form-control form-control-lg required") }}
+      <div class="invalid-feedback">
+        <span>Your password is required.</span>
+      </div>
     </div>
     <div class="form-check">
       {{ form.remember(class="form-check-input") }} {{
