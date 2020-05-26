@@ -12,6 +12,11 @@
       href="{{url_for('static', filename='css/style.css')}}"
       type="text/css"
     />
+    {% if title %}
+    <title>BBQ Recipes - {{ title }}</title>
+    {% else %}
+    <title>BBQ Recipes</title>
+    {% endif %}
   </head>
 
   <body>

@@ -21,11 +21,11 @@ def home():
 
 @app.route("/recipes")
 def recipes():
-    return render_template('recipes.html', recipe_list = collection.find())
+    return render_template('recipes.html', title = 'All recipes', recipe_list = collection.find())
 
 @app.route("/account")
 def account():
-    return render_template('account.html')
+    return render_template('account.html', title = 'User account')
 
 
 @app.route("/login", methods=['GET', 'POST'])
