@@ -1,16 +1,6 @@
-from flask import Flask, render_template, url_for, redirect, flash
-from pymongo import MongoClient
-from forms import LoginForm, RegistrationForm
-
-# instantiated flask application
-app = Flask(__name__)
-
-app.config['SECRET_KEY'] = '86f41a39c3a243fd22d96228eaeb23a60df36e76'
-
-# local MongoDB
-client = MongoClient('localhost', 27017)
-db = client.recipe
-collection = db.recipe
+from flask import render_template, url_for, redirect, flash
+from recipeapp import app, collection
+from recipeapp.forms import LoginForm, RegistrationForm
 
 @app.route("/")
 @app.route("/home")
@@ -45,6 +35,3 @@ def register():
         flash(f'Welcome, we\'re glad to have you here {form.first_name.data}!', 'success')
         return redirect(url_for('account'))
     return render_template('register.html', title='Register', form=form)
-
-if __name__ == "__main__":
-    app.run(debug=True)
