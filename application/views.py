@@ -1,6 +1,7 @@
 from flask import render_template, url_for, redirect, flash
-from recipeapp import app, collection
-from recipeapp.forms import LoginForm, RegistrationForm
+from application import app
+from application.forms import LoginForm, RegistrationForm
+from application.models import Recipe
 
 @app.route("/")
 @app.route("/home")
@@ -11,7 +12,7 @@ def home():
 
 @app.route("/recipes")
 def recipes():
-    return render_template('recipes.html', title = 'All recipes', recipe_list = collection.find())
+    return render_template('recipes.html', title = 'All recipes', recipe_list = Recipe.objects.all())
 
 @app.route("/account")
 def account():
