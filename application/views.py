@@ -22,7 +22,11 @@ def account():
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'user@bbq.com' and form.password.data == 'password':
+        email               = form.email.data
+        password            = form.password.data   
+        user                = User.objects(email = email).first()     
+        
+        if user and user.get_password(password):
             flash('You are succesfully logged in!', 'success')
             return redirect(url_for('account'))
         else:
@@ -41,7 +45,8 @@ def register():
         password    = form.password.data
         gdpr_check  = form.gdpr_check.data
 
-        user = User(email = email, first_name = first_name, last_name = last_name, password = password, gdpr_check = gdpr_check)
+        user = User(email = email, first_name = first_name, last_name = last_name, gdpr_check = gdpr_check)
+        user.set_password(password)
         user.save()
         flash(f'Welcome, we\'re glad to have you here {form.first_name.data}! Please login with your e-mail and password.', 'success')
         return redirect("/login")
