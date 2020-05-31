@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash
-from application import app
+from application import app, db
 from application.forms import LoginForm, RegistrationForm
-from application.models import Recipe
+from application.models import Recipe, User
 
 @app.route("/")
 @app.route("/home")
@@ -29,10 +29,20 @@ def login():
             flash('Login failed. Please make sure you used the correct username (= e-mail) and password!', 'danger')
     return render_template('login.html', title='Login', form=form)
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET','POST'])
 def register():
     form = RegistrationForm()
+    
     if form.validate_on_submit():
-        flash(f'Welcome, we\'re glad to have you here {form.first_name.data}!', 'success')
-        return redirect(url_for('account'))
-    return render_template('register.html', title='Register', form=form)
+        username    = form.username.data
+        email       = form.email.data
+        first_name  = form.first_name.data
+        last_name   = form.last_name.data
+        password    = form.password.data
+        gdpr_check  = form.gdpr_check.data
+
+        user = User(email = email, first_name = first_name, last_name = last_name, password = password, gdpr_check = gdpr_check)
+        user.save()
+        flash(f'Welcome, we\'re glad to have you here {form.first_name.data}! Please login with your e-mail and password.', 'success')
+        return redirect("/login")
+    return render_template("register.html", title="Register", form=form)

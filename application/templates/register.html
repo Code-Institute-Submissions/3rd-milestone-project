@@ -1,6 +1,6 @@
 {% extends 'base.html'%} {% block content %}
 
-<section class="register">
+<section class="section-register">
   <form method="POST" action="" class="needs-validation" novalidate>
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -38,13 +38,13 @@
         <span>A valid password is required.</span>
       </div>
     </div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       {{ form.confirm_password.label(class="form-control-label") }} {{
       form.confirm_password(class="form-control form-control-lg required") }}
       <div class="invalid-feedback">
         <span>Your password and confirmation password do not match.</span>
       </div>
-    </div>
+    </div> -->
     <div class="form-check">
       {{ form.gdpr_check(class="form-check-input required") }} {{
       form.gdpr_check.label(class="form-check-label") }}
