@@ -10,13 +10,13 @@ class LoginForm(FlaskForm):
     submit                  = SubmitField('Sign in')
 
 class RegistrationForm(FlaskForm):
-    username                = StringField('Username', validators=[DataRequired(), Length(min=5, max=15)])
-    first_name              = StringField('First name', validators=[DataRequired()])
-    last_name               = StringField('Last name', validators=[DataRequired()])
-    email                   = StringField('E-mail', validators=[DataRequired(), Email()])
-    password                = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
+    username                = StringField('Username', validators=[DataRequired(message="Please enter the username of your choice."), Length(min=5, max=15, message="Your username should be between 5 and 15 characters long.")])
+    first_name              = StringField('First name', validators=[DataRequired(message="Please enter your firstname.")])
+    last_name               = StringField('Last name', validators=[DataRequired(message="Please enter your lastname.")])
+    email                   = StringField('E-mail', validators=[DataRequired(message="Please enter your e-mail."), Email(message="Please enter a valid e-mail.")])
+    password                = PasswordField('Password', validators=[DataRequired(message="Please enter your password."), Length(min=8, message="Your password should be at least 8 characters long.")])
     #confirm_password       = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
-    gdpr_check              = BooleanField('Confirm you\'ve read our terms and conditions', validators=[DataRequired()])
+    gdpr_check              = BooleanField('Confirm you\'ve read our terms and conditions', validators=[DataRequired(message="Please confirm that you\'ve read our terms and conditions.")])
     submit                  = SubmitField('Register')
 
 

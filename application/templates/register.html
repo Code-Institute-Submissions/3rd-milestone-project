@@ -1,53 +1,77 @@
 {% extends 'base.html'%} {% block content %}
 
 <section class="section-register">
-  <form method="POST" action="" class="needs-validation" novalidate>
+  <form method="POST" action="" novalidate>
     {{ form.hidden_tag() }}
     <div class="form-group">
-      {{ form.username.label(class="form-control-label") }} {{
-      form.username(class="form-control form-control-lg required") }}
+      {{ form.username.label(class="form-control-label") }} {% if
+      form.username.errors %} {{ form.username(class="form-control
+      form-control-lg is-invalid") }}
       <div class="invalid-feedback">
-        <span>A valid username is required.</span>
+        {% for error in form.username.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
       </div>
+      {% else %} {{ form.username(class="form-control form-control-lg") }} {%
+      endif %}
     </div>
     <div class="form-group">
-      {{ form.first_name.label(class="form-control-label") }} {{
-      form.first_name(class="form-control form-control-lg required") }}
+      {{ form.first_name.label(class="form-control-label") }} {% if
+      form.first_name.errors %} {{ form.first_name(class="form-control
+      form-control-lg is-invalid") }}
       <div class="invalid-feedback">
-        <span>Your first name is required.</span>
+        {% for error in form.first_name.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
       </div>
+      {% else %} {{ form.first_name(class="form-control form-control-lg") }} {%
+      endif %}
     </div>
     <div class="form-group">
-      {{ form.last_name.label(class="form-control-label") }} {{
-      form.last_name(class="form-control form-control-lg required") }}
+      {{ form.last_name.label(class="form-control-label") }} {% if
+      form.last_name.errors %} {{ form.last_name(class="form-control
+      form-control-lg is-invalid") }}
       <div class="invalid-feedback">
-        <span>Your last name is required.</span>
+        {% for error in form.last_name.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
       </div>
+      {% else %} {{ form.last_name(class="form-control form-control-lg") }} {%
+      endif %}
     </div>
     <div class="form-group">
-      {{ form.email.label(class="form-control-label") }} {{
-      form.email(class="form-control form-control-lg required") }}
+      {{ form.email.label(class="form-control-label") }} {% if form.email.errors
+      %} {{ form.email(class="form-control form-control-lg is-invalid") }}
       <div class="invalid-feedback">
-        <span>A valid e-mail is required.</span>
+        {% for error in form.email.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
       </div>
+      {% else %} {{ form.email(class="form-control form-control-lg") }} {% endif
+      %}
     </div>
     <div class="form-group">
-      {{ form.password.label(class="form-control-label") }} {{
-      form.password(class="form-control form-control-lg required") }}
+      {{ form.password.label(class="form-control-label") }} {% if
+      form.password.errors %} {{ form.password(class="form-control
+      form-control-lg is-invalid") }}
       <div class="invalid-feedback">
-        <span>A valid password is required.</span>
+        {% for error in form.password.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
       </div>
+      {% else %} {{ form.password(class="form-control form-control-lg") }} {%
+      endif %}
     </div>
-    <!-- <div class="form-group">
-      {{ form.confirm_password.label(class="form-control-label") }} {{
-      form.confirm_password(class="form-control form-control-lg required") }}
-      <div class="invalid-feedback">
-        <span>Your password and confirmation password do not match.</span>
-      </div>
-    </div> -->
     <div class="form-check">
-      {{ form.gdpr_check(class="form-check-input required") }} {{
-      form.gdpr_check.label(class="form-check-label") }}
+      {% if form.gdpr_check.errors %} {{ form.gdpr_check(class="form-check-input
+      is-invalid") }} {{ form.gdpr_check.label(class="form-check-label") }}
+      <div class="invalid-feedback">
+        {% for error in form.gdpr_check.errors %}
+        <span>{{ error }}</span>
+        {% endfor %}
+      </div>
+      {% else %} {{ form.gdpr_check(class="form-check-input") }} {{
+      form.gdpr_check.label(class="form-check-label") }} {% endif %}
     </div>
     <div class="form-group">
       {{ form.submit(class="btn btn-outline-success") }}
