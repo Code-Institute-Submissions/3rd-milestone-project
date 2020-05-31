@@ -15,7 +15,7 @@ class RegistrationForm(FlaskForm):
     last_name               = StringField('Last name', validators=[DataRequired(message="Please enter your lastname.")])
     email                   = StringField('E-mail', validators=[DataRequired(message="Please enter your e-mail."), Email(message="Please enter a valid e-mail.")])
     password                = PasswordField('Password', validators=[DataRequired(message="Please enter your password."), Length(min=8, message="Your password should be at least 8 characters long.")])
-    #confirm_password       = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password')])
+    confirm_password       = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password', message="Password and confirm password fields should match. Please enter the password of your choice.")])
     gdpr_check              = BooleanField('Confirm you\'ve read our terms and conditions', validators=[DataRequired(message="Please confirm that you\'ve read our terms and conditions.")])
     submit                  = SubmitField('Register')
 
