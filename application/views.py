@@ -2,7 +2,7 @@ from flask import render_template, url_for, redirect, flash
 from application import app, db
 from application.forms import LoginForm, RegistrationForm
 from application.models import Recipe, User
-from flask_login import login_user
+from flask_login import login_user, current_user, logout_user
 
 @app.route("/")
 @app.route("/home")
@@ -23,6 +23,9 @@ def account():
 # ------ LOGIN ------ #
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    # Check if user is already logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('account'))
     form = LoginForm()
     # Validate form
     if form.validate_on_submit():
@@ -42,9 +45,18 @@ def login():
     # Render html, giving its title and passing in the form
     return render_template('login.html', title='Login', form=form)
 
+# ------ LOGOUT ------ #
+@app.route("/logout")
+def logout():
+    logout_user()
+    return redirect(url_for('home'))
+
 # ------ USER REGISTRATION ------ #
 @app.route("/register", methods=['GET','POST'])
 def register():
+    # Check if user is already logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('account'))
     form = RegistrationForm()
     # Validate form
     if form.validate_on_submit():
