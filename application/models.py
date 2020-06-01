@@ -1,7 +1,8 @@
 import flask
 from datetime import datetime
-from application import db
+from application import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 
 # ------ RECIPE MODEL ------ #
 class Recipe(db.Document):
@@ -9,8 +10,14 @@ class Recipe(db.Document):
     description             = db.StringField(max_length=50)
     user                    = db.StringField(max_length=50)
 
+
+# User loader function to load a user given an id
+@login_manager.user_loader
+def load_user(id):
+    return User.objects(pk = id).first()
+
 # ------ USER MODEL ------ #
-class User(db.Document):
+class User(db.Document, UserMixin):
     username                = db.StringField(min_length = 5, max_length=15)
     email                   = db.StringField(max_length=50)
     first_name              = db.StringField(max_length=50)

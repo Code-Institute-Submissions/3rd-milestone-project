@@ -2,6 +2,7 @@ from flask import render_template, url_for, redirect, flash
 from application import app, db
 from application.forms import LoginForm, RegistrationForm
 from application.models import Recipe, User
+from flask_login import login_user
 
 @app.route("/")
 @app.route("/home")
@@ -27,10 +28,13 @@ def login():
     if form.validate_on_submit():
         email         = form.email.data
         password      = form.password.data   
+        remember      = form.remember.data
         user          = User.objects(email = email).first()     
         
         # Check if user exist and verify password against DB
         if user and user.get_password(password):
+            # Login user
+            login_user(user, remember = remember)
             flash('You are succesfully logged in!', 'success')
             return redirect(url_for('account'))
         else:
