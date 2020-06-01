@@ -1,8 +1,8 @@
-from flask import render_template, url_for, redirect, flash
+from flask import render_template, url_for, redirect, flash, request
 from application import app, db
 from application.forms import LoginForm, RegistrationForm
 from application.models import Recipe, User
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 @app.route("/")
 @app.route("/home")
@@ -17,6 +17,8 @@ def recipes():
 
 # ------ USER ACCOUNT ------ #
 @app.route("/account")
+# Login is required for account page
+@login_required
 def account():
     return render_template('account.html', title = 'User account')
 
@@ -39,7 +41,12 @@ def login():
             # Login user
             login_user(user, remember = remember)
             flash('You are succesfully logged in!', 'success')
-            return redirect(url_for('account'))
+            # Go to page user intented to visit before logging in
+            next_page = request.args.get('next')
+            if next_page:
+                return redirect(next_page)
+            else:
+                return redirect(url_for('account'))
         else:
             flash('Login failed. Please make sure you used the correct username (= e-mail) and password!', 'danger')
     # Render html, giving its title and passing in the form
