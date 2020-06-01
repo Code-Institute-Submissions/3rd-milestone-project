@@ -45,7 +45,7 @@ def register():
         password    = form.password.data
         gdpr_check  = form.gdpr_check.data
 
-        user = User(email = email, first_name = first_name, last_name = last_name, gdpr_check = gdpr_check)
+        user = User(username = username, email = email, first_name = first_name, last_name = last_name, gdpr_check = gdpr_check)
         user.set_password(password)
         user.save()
         flash(f'Welcome, we\'re glad to have you here {form.first_name.data}! Please login with your e-mail and password.', 'success')

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
-from wtforms.validators import DataRequired, Length, Email, EqualTo
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from application.models import User
 
 class LoginForm(FlaskForm):
@@ -18,6 +18,16 @@ class RegistrationForm(FlaskForm):
     confirm_password       = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password', message="Password and confirm password fields should match. Please enter the password of your choice.")])
     gdpr_check              = BooleanField('Confirm you\'ve read our terms and conditions', validators=[DataRequired(message="Please confirm that you\'ve read our terms and conditions.")])
     submit                  = SubmitField('Register')
+
+    def validate_username(self, username):
+        user = User.objects(username = username.data).first()
+        if user:
+            raise ValidationError("This username is unfortunately taken. Please register with another username.")
+    
+    def validate_email(self, email):
+        user = User.objects(email = email.data).first()
+        if user:
+            raise ValidationError("You already registered with this email. Please login with this email.")
 
 
 
