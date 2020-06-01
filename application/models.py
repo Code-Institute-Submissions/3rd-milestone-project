@@ -19,10 +19,10 @@ class User(db.Document):
     gdpr_check              = db.BooleanField(default = False)
     date_time_gdpr_check    = db.DateTimeField(default = datetime.now)
 
-    # Hash password to store password secure in DB.
+    # Hash password to store password secure in DB
     def set_password(self, password):
         self.password = generate_password_hash(password)
 
-    # Unhash password to check against password filled in form.
+    # Unhash password to check against password filled in form
     def get_password(self, password):
         return check_password_hash(self.password, password)  
