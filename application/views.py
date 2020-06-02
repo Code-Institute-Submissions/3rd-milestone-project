@@ -15,6 +15,27 @@ def home():
 def recipes():
     return render_template('recipes.html', title = 'All recipes', recipe_list = Recipe.objects.all())
 
+# ------ ADD RECIPE ------ #
+@app.route("/recipe/add", methods=['GET', 'POST'])
+# Login is required for add recipe page
+@login_required
+def add_recipe():
+    form    = AddRecipeForm()
+    # Access the underlying object User that is proxied for making the ReferenceField author work
+    author_id  = current_user._get_current_object()
+    author     = current_user.username 
+   
+    # Validate form
+    if form.validate_on_submit():
+        title           = form.title.data
+        description     = form.description.data        
+        # Create new instance of user
+        new_recipe = Recipe(title = title, description = description, author_id = author_id, author = author)
+        # Insert record to the DB
+        new_recipe.save()
+        flash('Your awesome recipe has been added!', 'success')    
+    return render_template('add_recipe.html', title = 'Add recipe', form = form)
+
 # ------ USER ACCOUNT ------ #
 @app.route("/account", methods=['GET', 'POST'])
 # Login is required for account page
