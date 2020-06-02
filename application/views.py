@@ -1,6 +1,6 @@
 from flask import render_template, url_for, redirect, flash, request
 from application import app, db
-from application.forms import LoginForm, RegistrationForm
+from application.forms import LoginForm, RegistrationForm, AddRecipeForm
 from application.models import Recipe, User
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -16,11 +16,27 @@ def recipes():
     return render_template('recipes.html', title = 'All recipes', recipe_list = Recipe.objects.all())
 
 # ------ USER ACCOUNT ------ #
-@app.route("/account")
+@app.route("/account", methods=['GET', 'POST'])
 # Login is required for account page
 @login_required
 def account():
-    return render_template('account.html', title = 'User account')
+    form    = AddRecipeForm()
+    # Access the underlying object User that is proxied for making the ReferenceField author work
+    author_id  = current_user._get_current_object()
+    author     = current_user.username 
+   
+    # Make recipe list by author
+    recipe_list = Recipe.objects(author = author)
+    # Validate form
+    if form.validate_on_submit():
+        title           = form.title.data
+        description     = form.description.data        
+        # Create new instance of user
+        new_recipe = Recipe(title = title, description = description, author_id = author_id, author = author)
+        # Insert record to the DB
+        new_recipe.save()
+        flash('Your awesome recipe has been added!', 'success')    
+    return render_template('account.html', title = 'User account', form = form, recipe_list = recipe_list)
 
 # ------ LOGIN ------ #
 @app.route("/login", methods=['GET', 'POST'])
@@ -50,7 +66,7 @@ def login():
         else:
             flash('Login failed. Please make sure you used the correct username (= e-mail) and password!', 'danger')
     # Render html, giving its title and passing in the form
-    return render_template('login.html', title='Login', form=form)
+    return render_template('login.html', title = 'Login', form = form)
 
 # ------ LOGOUT ------ #
 @app.route("/logout")
@@ -83,4 +99,4 @@ def register():
         flash(f'Welcome, we\'re glad to have you here {form.first_name.data}! Please login with your e-mail and password.', 'success')
         return redirect("/login")
     # Render html, giving its title and passing in the form
-    return render_template("register.html", title="Register", form=form)
+    return render_template("register.html", title = "Register", form = form)

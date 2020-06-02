@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
-from application.models import User
+from application.models import User, Recipe
 
 # ------ LOGIN FORM ------ #
 class LoginForm(FlaskForm):
@@ -17,7 +17,7 @@ class RegistrationForm(FlaskForm):
     last_name               = StringField('Last name', validators=[DataRequired(message="Please enter your lastname.")])
     email                   = StringField('E-mail', validators=[DataRequired(message="Please enter your e-mail."), Email(message="Please enter a valid e-mail.")])
     password                = PasswordField('Password', validators=[DataRequired(message="Please enter your password."), Length(min=8, message="Your password should be at least 8 characters long.")])
-    confirm_password       = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password', message="Password and confirm password fields should match. Please enter the password of your choice.")])
+    confirm_password        = PasswordField('Confirm password', validators=[DataRequired(), EqualTo('password', message="Password and confirm password fields should match. Please enter the password of your choice.")])
     gdpr_check              = BooleanField('Confirm you\'ve read our terms and conditions', validators=[DataRequired(message="Please confirm that you\'ve read our terms and conditions.")])
     submit                  = SubmitField('Register')
 
@@ -32,6 +32,12 @@ class RegistrationForm(FlaskForm):
         user = User.objects(email = email.data).first()
         if user:
             raise ValidationError("You already registered with this email. Please login with this email.")
+
+# ------ LOGIN FORM ------ #
+class AddRecipeForm(FlaskForm):
+    title                   = StringField('Title', validators=[DataRequired(message="Please enter a title for your recipe.")])
+    description             = StringField('Description', validators=[DataRequired(message="Please enter a description for your recipe.")])
+    submit                  = SubmitField('Add Recipe')
 
 
 
