@@ -33,8 +33,23 @@ def add_recipe():
         new_recipe = Recipe(title = title, description = description, author_id = author_id, author = author)
         # Insert record to the DB
         new_recipe.save()
-        flash('Your awesome recipe has been added!', 'success')    
+        flash('Your awesome recipe has been added!', 'success')
+        # Go to all my recipes page after submitting a recipe
+        return redirect(url_for('my_recipes'))
     return render_template('add_recipe.html', title = 'Add recipe', form = form)
+
+# ------ ALL MY RECIPES------ #
+@app.route("/recipe/all", methods=['GET', 'POST'])
+# Login is required for account page
+@login_required
+def my_recipes():
+    # Access the underlying object User that is proxied for making the ReferenceField author work
+    author_id  = current_user._get_current_object()
+   
+    # Make recipe list by author id
+    recipe_list = Recipe.objects(author_id = author_id)
+    
+    return render_template('my_recipes.html', title = 'All my recipes', recipe_list = recipe_list)
 
 # ------ USER ACCOUNT ------ #
 @app.route("/account", methods=['GET', 'POST'])

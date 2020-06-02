@@ -1,6 +1,7 @@
 {% extends 'base.html'%} {% block content %}
 
 <section class="section-recipe-user">
+  {% if recipe_list %}
   <p>You've added the following recipes:</p>
   {% for recipe in recipe_list %}
   <div>
@@ -10,5 +11,4 @@
   </div>
   {% endfor %}
 </section>
-
-{% endblock %}
+{% else %} ADD RECIPE {% endif %} {% endblock %}
