@@ -25,7 +25,7 @@ def add_recipe():
     author_id  = current_user._get_current_object()
     author     = current_user.username 
    
-    # Validate form
+    # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
         title           = form.title.data
         description     = form.description.data        
@@ -39,7 +39,7 @@ def add_recipe():
     return render_template('add_recipe.html', title = 'Add recipe', form = form)
 
 # ------ ALL MY RECIPES------ #
-@app.route("/recipe/all", methods=['GET', 'POST'])
+@app.route("/recipe/all")
 # Login is required for account page
 @login_required
 def my_recipes():
@@ -63,7 +63,7 @@ def account():
    
     # Make recipe list by author
     recipe_list = Recipe.objects(author = author)
-    # Validate form
+    # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
         title           = form.title.data
         description     = form.description.data        
@@ -81,7 +81,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('account'))
     form = LoginForm()
-    # Validate form
+    # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
         email         = form.email.data
         password      = form.password.data   
@@ -118,7 +118,7 @@ def register():
     if current_user.is_authenticated:
         return redirect(url_for('account'))
     form = RegistrationForm()
-    # Validate form
+    # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
         username    = form.username.data
         email       = form.email.data
