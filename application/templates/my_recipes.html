@@ -1,14 +1,43 @@
 {% extends 'base.html'%} {% block content %}
-
-<section class="section-recipe-user">
+<section class="section-my-recipes">
   {% if recipe_list %}
-  <p>You've added the following recipes:</p>
-  {% for recipe in recipe_list %}
-  <div>
-    <p>{{ recipe.author }}</p>
-    <p>{{ recipe.title }}</p>
-    <p>{{ recipe.description }}</p>
+  <div class="accordion" id="my-recipe-accordion">
+    {% for recipe in recipe_list %}
+    <div class="card">
+      <div class="card-header" id="heading{{ recipe.recipe_id }}">
+        <h2 class="mb-0">
+          <button
+            type="button"
+            class="btn btn-link"
+            data-toggle="collapse"
+            data-target="#collapse-item{{ recipe.recipe_id }}"
+          >
+            <i class="fa fa-plus"></i> {{ recipe.title }}
+          </button>
+        </h2>
+      </div>
+      <div
+        id="collapse-item{{ recipe.recipe_id }}"
+        class="collapse"
+        aria-labelledby="heading{{ recipe.recipe_id }}"
+        data-parent="#my-recipe-accordion"
+      >
+        <div class="card-body">
+          <p>
+            {{ recipe.description }}
+          </p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
   </div>
-  {% endfor %}
+  {% else %}
+  <a
+    href="{{ url_for('add_recipe') }}"
+    class="btn btn-outline-success"
+    role="button"
+    >Add your recipe</a
+  >
+  {% endif %}
 </section>
-{% else %} ADD RECIPE {% endif %} {% endblock %}
+{% endblock %}

@@ -6,6 +6,7 @@ from flask_login import UserMixin
 
 # ------ RECIPE MODEL ------ #
 class Recipe(db.DynamicDocument):
+    recipe_id               = db.IntField()
     title                   = db.StringField(max_length = 50)
     description             = db.StringField(max_length = 50)
     author_id               = db.ReferenceField('User')

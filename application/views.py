@@ -27,10 +27,11 @@ def add_recipe():
    
     # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
+        recipe_id       = Recipe.objects.count() + 1
         title           = form.title.data
         description     = form.description.data        
-        # Create new instance of user
-        new_recipe = Recipe(title = title, description = description, author_id = author_id, author = author)
+        # Create new instance of recipe
+        new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author)
         # Insert record to the DB
         new_recipe.save()
         flash('Your awesome recipe has been added!', 'success')
@@ -65,10 +66,11 @@ def account():
     recipe_list = Recipe.objects(author = author)
     # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
+        recipe_id       = Recipe.objects.count() + 1
         title           = form.title.data
         description     = form.description.data        
-        # Create new instance of user
-        new_recipe = Recipe(title = title, description = description, author_id = author_id, author = author)
+        # Create new instance of recipe
+        new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author)
         # Insert record to the DB
         new_recipe.save()
         flash('Your awesome recipe has been added!', 'success')    
