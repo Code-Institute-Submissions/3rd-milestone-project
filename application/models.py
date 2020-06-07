@@ -5,6 +5,11 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 from mongoengine import *
 
+# User loader function to load a user given an id
+@login_manager.user_loader
+def load_user(id):
+    return User.objects(pk = id).first()
+
 # ------ RECIPE MODEL ------ #
 class Recipe(db.Document):
     recipe_id               = db.IntField()
@@ -12,12 +17,6 @@ class Recipe(db.Document):
     description             = db.StringField(max_length = 50)
     author_id               = db.ReferenceField('User')
     author                  = db.StringField(max_length = 50)
-
-
-# User loader function to load a user given an id
-@login_manager.user_loader
-def load_user(id):
-    return User.objects(pk = id).first()
 
 # ------ USER MODEL ------ #
 class User(db.Document, UserMixin):
@@ -35,4 +34,4 @@ class User(db.Document, UserMixin):
 
     # Unhash password to check against password filled in form
     def get_password(self, password):
-        return check_password_hash(self.password, password)  
+        return check_password_hash(self.password, password)

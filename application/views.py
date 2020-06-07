@@ -64,6 +64,19 @@ def edit_recipe(recipe_id):
     # Render html, giving its title and passing in the form
     return render_template('add_recipe.html', title = 'Edit recipe', form = form)  
 
+    # ------ DELETE SPECIFIC RECIPE ------ #
+@app.route("/recipe/delete/<int:recipe_id>")
+@login_required
+def delete_recipe(recipe_id):
+    # Search in DB for recipe ID. If not, return 404 page
+    recipe = Recipe.objects.get_or_404(recipe_id = recipe_id)
+    # Check if author ID is same as OnjectId of current user. If not, return 403 Forbidden page
+    if recipe.author_id != current_user._get_current_object():
+        abort(403)
+    recipe.delete()
+    flash('Your recipe has been deleted. We hope to see you adding a new recipe soon ;)', 'success')
+    return redirect(url_for('my_recipes')) 
+
 # ------ ALL MY RECIPES------ #
 @app.route("/recipe/all")
 # Login is required for account page
