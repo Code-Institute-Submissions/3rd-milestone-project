@@ -3,9 +3,10 @@ from datetime import datetime
 from application import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
+from mongoengine import *
 
 # ------ RECIPE MODEL ------ #
-class Recipe(db.DynamicDocument):
+class Recipe(db.Document):
     recipe_id               = db.IntField()
     title                   = db.StringField(max_length = 50)
     description             = db.StringField(max_length = 50)
@@ -27,10 +28,6 @@ class User(db.Document, UserMixin):
     password                = db.StringField(min_length = 8)
     gdpr_check              = db.BooleanField(default = False)
     date_time_gdpr_check    = db.DateTimeField(default = datetime.now)
-
-    @property
-    def author(self):
-        return author.objects(user = self).get()
 
     # Hash password to store password secure in DB
     def set_password(self, password):

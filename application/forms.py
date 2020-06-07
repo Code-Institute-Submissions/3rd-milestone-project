@@ -33,11 +33,11 @@ class RegistrationForm(FlaskForm):
         if user:
             raise ValidationError("You already registered with this email. Please login with this email.")
 
-# ------ LOGIN FORM ------ #
+# ------ ADD RECIPE FORM ------ #
 class AddRecipeForm(FlaskForm):
     title                   = StringField('Title', validators=[DataRequired(message="Please enter a title for your recipe.")])
     description             = StringField('Description', validators=[DataRequired(message="Please enter a description for your recipe.")])
-    submit                  = SubmitField('Add Recipe')
+    submit                  = SubmitField('Submit')
 
 
 

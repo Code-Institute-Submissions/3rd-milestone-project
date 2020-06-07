@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, flash, request
+from flask import render_template, url_for, redirect, flash, request, abort
 from application import app, db
 from application.forms import LoginForm, RegistrationForm, AddRecipeForm
 from application.models import Recipe, User
@@ -39,6 +39,31 @@ def add_recipe():
         return redirect(url_for('my_recipes'))
     return render_template('add_recipe.html', title = 'Add recipe', form = form)
 
+# ------ EDIT/UPDATE SPECIFIC RECIPE ------ #
+@app.route("/recipe/edit/<int:recipe_id>", methods=['GET', 'POST'])
+@login_required
+def edit_recipe(recipe_id):
+    # Search in DB for recipe ID. If not, return 404 page
+    recipe = Recipe.objects.get_or_404(recipe_id = recipe_id)
+    # Check if author ID is same as OnjectId of current user. If not, return 403 Forbidden page
+    if recipe.author_id != current_user._get_current_object():
+        abort(403)
+    form = AddRecipeForm()
+    if form.validate_on_submit():
+        recipe.title        = form.title.data
+        recipe.description  = form.description.data
+        # MongoEngine tracks changes to documents to provide efficient saving. When document exists changes will be updated atomically. 
+        # Reference: https://docs.mongoengine.org/guide/document-instances.html#saving-and-deleting-documents
+        recipe.save()
+        flash('Your recipe has been changed. Thank you for keeping our website up to date with your latest taste sensations ;)', 'success')
+        return redirect(url_for('my_recipes'))
+    # Show existing data in form through GET request    
+    elif request.method == 'GET':
+        form.title.data         = recipe.title
+        form.description.data   = recipe.description
+    # Render html, giving its title and passing in the form
+    return render_template('add_recipe.html', title = 'Edit recipe', form = form)  
+
 # ------ ALL MY RECIPES------ #
 @app.route("/recipe/all")
 # Login is required for account page
@@ -49,7 +74,7 @@ def my_recipes():
    
     # Make recipe list by author id
     recipe_list = Recipe.objects(author_id = author_id)
-    
+    # Render html, giving its title and user specific recipes
     return render_template('my_recipes.html', title = 'All my recipes', recipe_list = recipe_list)
 
 # ------ USER ACCOUNT ------ #
