@@ -5,16 +5,22 @@
     {% for recipe in recipe_list %}
     <div class="card">
       <div class="card-header" id="heading{{ recipe.recipe_id }}">
-        <h2 class="mb-0">
-          <button
-            type="button"
-            class="btn btn-link"
-            data-toggle="collapse"
-            data-target="#collapse-item{{ recipe.recipe_id }}"
-          >
-            <i class="fa fa-plus"></i> {{ recipe.title }}
-          </button>
-        </h2>
+        <div class="row">
+          <div class="col-md-10">
+          <h2 class="mb-0 my-recipe-title">
+            <button
+              type="button"
+              class="btn btn-link"
+              data-toggle="collapse"
+              data-target="#collapse-item{{ recipe.recipe_id }}"
+            >
+              <i class="fa fa-plus mr-2"></i> {{ recipe.title }}
+            </button></div>
+            <div class="col-md-2 d-flex align-items-center">
+            <a href="#" class="edit"><i class="fa fa-edit mx-1"></i></a>
+            <a href="#" class="trash"><i class="fa fa-trash mx-1"></i></a></div>
+          </h2>
+        </div>
       </div>
       <div
         id="collapse-item{{ recipe.recipe_id }}"

@@ -5,7 +5,7 @@ $(document).ready(function () {
     .on("show.bs.collapse", function () {
       $(this)
         .prev(".card-header")
-        .find(".fa")
+        .find(".fa-plus")
         .removeClass("fa-plus")
         .addClass("fa-minus");
     })
@@ -13,7 +13,7 @@ $(document).ready(function () {
     .on("hide.bs.collapse", function () {
       $(this)
         .prev(".card-header")
-        .find(".fa")
+        .find(".fa-minus")
         .removeClass("fa-minus")
         .addClass("fa-plus");
     });
