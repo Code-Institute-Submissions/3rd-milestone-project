@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>BBQ Recipes</h1>
+
+<div>
+  <p>{{recipe.author }}</p>
+  <p>{{recipe.title }}</p>
+  <p>{{recipe.description}}</p>
+  <img
+    src="/images/{{recipe.recipe_image_name }}"
+    alt="{{recipe.recipe_image_name }}"
+  />
+</div>
+{% endblock %}

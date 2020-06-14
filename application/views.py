@@ -1,4 +1,4 @@
-from flask import render_template, url_for, redirect, flash, request, abort
+from flask import render_template, url_for, redirect, flash, request, abort, send_file
 from application import app, db
 from application.forms import LoginForm, RegistrationForm, AddRecipeForm
 from application.models import Recipe, User
@@ -39,9 +39,9 @@ def add_recipe():
             # Check if image name is secure by usering Werkzeug's secure_filename function
             secure_image_name = secure_filename(recipe_image.filename)
 
-            # Creating suffix for making image name unique
-            suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
-            recipe_image_name = "_".join([secure_image_name, suffix])  
+            # Creating prefix for making image name unique
+            prefix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+            recipe_image_name = "_".join([prefix, secure_image_name])  
 
         # Create new instance of recipe
         new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author, recipe_image = recipe_image, recipe_image_name = recipe_image_name)
@@ -68,14 +68,14 @@ def edit_recipe(recipe_id):
 
         # Check if recipe image is selected by user
         if 'recipe_image' in request.files:
-            recipe_image = request.files[ 'recipe_image'] 
+            recipe_image = request.files.get_image('recipe_image') 
 
             # Check if image name is secure by usering Werkzeug's secure_filename function
             secure_image_name = secure_filename(recipe_image.filename)
 
-            # Creating suffix for making image name unique
-            suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
-            recipe_image_name = "_".join([secure_image_name, suffix])  
+            # Creating prefix for making image name unique
+            prefix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+            recipe_image_name = "_".join([prefix, secure_image_name])  
 
             # Adding image object and name in case an image is selected
             recipe.recipe_image         = recipe_image
@@ -105,6 +105,20 @@ def delete_recipe(recipe_id):
     recipe.delete()
     flash('Your recipe has been deleted. We hope to see you adding a new recipe soon ;)', 'success')
     return redirect(url_for('my_recipes')) 
+
+# ------ HELPER ROUTE TO SHOW IMAGES ------ #
+@app.route('/images/<image_name>')
+def get_image(image_name):
+    image = Recipe.objects(recipe_image_name = image_name).first()
+    return send_file(image.recipe_image, mimetype='image')
+
+# ------ VIEW RECIPE BY RECIPE ID ------ #
+@app.route('/recipe/<recipe_id>')
+def recipe(recipe_id):
+    recipe  = Recipe.objects.get_or_404(recipe_id = recipe_id)
+    title   = recipe.title
+    # Render html, giving its title and passing in the recipe object
+    return render_template('recipe.html', title = title, recipe = recipe)
 
 # ------ ALL MY RECIPES------ #
 @app.route("/recipe/all")

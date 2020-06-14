@@ -33,7 +33,7 @@
     </div>
       {% if form.recipe_image.errors %}
           {% for error in form.recipe_image.errors %}
-              <span>{{ error }}</span></br>
+              <span class="text-danger" style="font-size: 80%;">{{ error }}</span></br>
           {% endfor %}
       {% endif %}
   </div>

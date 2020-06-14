@@ -17,7 +17,7 @@ class Recipe(db.Document):
     description             = db.StringField(max_length = 50)
     author_id               = db.ReferenceField('User')
     author                  = db.StringField(max_length = 50)
-    recipe_image            = db.FileField()
+    recipe_image            = db.ImageField()
     recipe_image_name       = db.StringField(max_length = 150)
 
 # ------ USER MODEL ------ #
