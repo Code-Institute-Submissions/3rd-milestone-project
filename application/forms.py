@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, FileField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from application.models import User, Recipe
 
@@ -37,6 +37,7 @@ class RegistrationForm(FlaskForm):
 class AddRecipeForm(FlaskForm):
     title                   = StringField('Title', validators=[DataRequired(message="Please enter a title for your recipe.")])
     description             = StringField('Description', validators=[DataRequired(message="Please enter a description for your recipe.")])
+    recipe_image            = FileField('Upload recipe image')
     submit                  = SubmitField('Submit')
 
 

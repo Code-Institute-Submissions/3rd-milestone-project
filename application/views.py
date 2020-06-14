@@ -3,6 +3,8 @@ from application import app, db
 from application.forms import LoginForm, RegistrationForm, AddRecipeForm
 from application.models import Recipe, User
 from flask_login import login_user, current_user, logout_user, login_required
+from werkzeug.utils import secure_filename
+import datetime
 
 @app.route("/")
 @app.route("/home")
@@ -29,9 +31,20 @@ def add_recipe():
     if form.validate_on_submit():
         recipe_id       = Recipe.objects.count() + 1
         title           = form.title.data
-        description     = form.description.data        
+        description     = form.description.data
+
+        # Check if recipe image is selected by user
+        if 'recipe_image' in request.files:
+            recipe_image = request.files[ 'recipe_image'] 
+            # Check if image name is secure by usering Werkzeug's secure_filename function
+            secure_image_name = secure_filename(recipe_image.filename)
+
+            # Creating suffix for making image name unique
+            suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+            recipe_image_name = "_".join([secure_image_name, suffix])  
+
         # Create new instance of recipe
-        new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author)
+        new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author, recipe_image = recipe_image, recipe_image_name = recipe_image_name)
         # Insert record to the DB
         new_recipe.save()
         flash('Your awesome recipe has been added!', 'success')

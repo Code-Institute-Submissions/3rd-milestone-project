@@ -1,5 +1,5 @@
 $(document).ready(function () {
-  // Content is hidden by default
+  // Content accordion in overview recipes is hidden by default
   $(".collapse")
     // When the collapsible recipe element is about to be shown change the plus icon into minus icon
     .on("show.bs.collapse", function () {
@@ -17,4 +17,12 @@ $(document).ready(function () {
         .removeClass("fa-minus")
         .addClass("fa-plus");
     });
+  // End code accordion
+
+  // Show user selected filename in add and update recipe form
+  $(".custom-file-input").on("change", function () {
+    var fileName = $(this).val().split("\\").pop();
+    $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+  });
 });
+// End code user selected filename
