@@ -29,11 +29,7 @@
         data-parent="#my-recipe-accordion"
       >
         <div class="card-body">
-           {% if recipe.recipe_image %}
           <img src="/images/{{recipe.recipe_image_name}}" alt="{{recipe.title}}" />
-        {% else %} 
-          <img src="/static/assets/images/default-bbq-810545_640.jpg" alt="{{recipe.title}}" />
-           {% endif %} 
           <p>
             {{ recipe.description }}
           </p>
