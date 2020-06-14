@@ -65,6 +65,22 @@ def edit_recipe(recipe_id):
     if form.validate_on_submit():
         recipe.title        = form.title.data
         recipe.description  = form.description.data
+
+        # Check if recipe image is selected by user
+        if 'recipe_image' in request.files:
+            recipe_image = request.files[ 'recipe_image'] 
+
+            # Check if image name is secure by usering Werkzeug's secure_filename function
+            secure_image_name = secure_filename(recipe_image.filename)
+
+            # Creating suffix for making image name unique
+            suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+            recipe_image_name = "_".join([secure_image_name, suffix])  
+
+            # Adding image object and name in case an image is selected
+            recipe.recipe_image         = recipe_image
+            recipe.recipe_image_name    = recipe_image_name
+
         # MongoEngine tracks changes to documents to provide efficient saving. When document exists changes will be updated atomically. 
         # Reference: https://docs.mongoengine.org/guide/document-instances.html#saving-and-deleting-documents
         recipe.save()
