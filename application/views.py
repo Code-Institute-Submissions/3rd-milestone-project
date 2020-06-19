@@ -5,6 +5,7 @@ from application.models import Recipe, User
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import datetime
+from flask_paginate import Pagination, get_page_parameter
 
 @app.route("/")
 @app.route("/home")
@@ -15,7 +16,17 @@ def home():
 # ------ GET ALL RECIPES ------ #
 @app.route("/recipes")
 def recipes():
-    return render_template('recipes.html', title = 'All recipes', recipe_list = Recipe.objects.all())
+    # Set default page parameter to 1
+    page = request.args.get(get_page_parameter(), type = int, default = 1)
+
+    # Get recipe and order descending so that newest recipes come first
+    recipes = Recipe.objects.order_by('-recipe_id')
+
+    # Configure pagination setting
+    pagination = Pagination(page = page, total = recipes.count(), record_name = 'recipes', per_page = 5, css_framework = 'bootstrap4')
+    
+    # Render html, giving its title and passing in recipes
+    return render_template('recipes.html', recipes = recipes, pagination = pagination)
 
 # ------ ADD RECIPE ------ #
 @app.route("/recipe/add", methods=['GET', 'POST'])

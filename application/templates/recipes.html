@@ -2,10 +2,10 @@
 
 <h1>BBQ Recipes</h1>
 
-{% for recipe in recipe_list %}
-<div>
-  <p>{{recipe.user }}</p>
-  <p>{{recipe.title }}</p>
-  <p>{{recipe.description}}</p>
-</div>
-{% endfor %} {% endblock %}
+<div class="mb-3">{{ pagination.info }}</div>
+{% for recipe in recipes %}
+
+<div>{{ recipe.title }}</div>
+<div class="mb-3">{{ recipe.description }}</div>
+
+{% endfor %} {{ pagination.links }} {% endblock %}
