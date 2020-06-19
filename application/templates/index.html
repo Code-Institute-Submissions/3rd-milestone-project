@@ -1,5 +1,6 @@
 {% extends 'base.html'%} {% block content %}
 
+<!-- Homepage banner section -->
 <section class="jumbotron homepage-banner">
   <div class="container homepage-title-container">
     <div class="d-block header-title">
@@ -9,6 +10,74 @@
       <p class="lead text-white">
         Take your grilling to the next level....
       </p>
+    </div>
+  </div>
+</section>
+
+<!-- Categories section -->
+<section class="py-5 bg-light-grey">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm h-100">
+          <h4 class="card-title p-2 uppercase">Meat</h4>
+          <div class="card-img">
+            <img
+              src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
+              class="img-fluid"
+              alt="BBQ Meat"
+            />
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              Dummy text
+            </p>
+            <div>
+              <small class="text-muted"># recipes</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm h-100">
+          <h4 class="card-title p-2 uppercase">Seafood</h4>
+          <div class="card-img">
+            <img
+              src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
+              class="img-fluid"
+              alt="BBQ Seafood"
+            />
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              Dummy text
+            </p>
+            <div>
+              <small class="text-muted"># recipes</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card mb-4 shadow-sm h-100">
+          <h4 class="card-title p-2 uppercase">Vegetarian</h4>
+          <div class="card-img">
+            <img
+              src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
+              class="img-fluid"
+              alt="BBQ Vegetarian"
+            />
+          </div>
+          <div class="card-body">
+            <p class="card-text">
+              Dummy text
+            </p>
+            <div>
+              <small class="text-muted"># recipes</small>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
