@@ -2,3 +2,9 @@
 .trash {
   font-size: 1.2em;
 }
+
+/* Navigation */
+
+.navbar-brand img {
+  height: 5vh;
+}
