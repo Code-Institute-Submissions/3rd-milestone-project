@@ -1,10 +1,45 @@
-.my-recipe-title .edit,
-.trash {
-  font-size: 1.2em;
+/* General settings */
+html,
+body {
+  font-size: 1em;
+  font-family: "Open Sans", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.4;
+  width: 100%;
+  margin: 0;
+  overflow-x: hidden;
 }
 
 /* Navigation */
-
 .navbar-brand img {
   height: 5vh;
+}
+
+/* Homepage banner */
+.homepage-banner {
+  /* Credits Pixabay user: RitaE / https://pixabay.com/nl/photos/vlees-fruit-gemuesepiess-1440105/ */
+  background: url("../images/meat-1440105_1280.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  max-height: 30vh;
+  margin-bottom: 0;
+}
+
+.homepage-title-container {
+  position: relative;
+}
+
+.header-title h1 {
+  font-size: 1.75rem;
+}
+
+.header-sub-title p {
+  font-size: 1rem;
+}
+
+/* My recipe */
+.my-recipe-title .edit,
+.trash {
+  font-size: 1.2em;
 }
