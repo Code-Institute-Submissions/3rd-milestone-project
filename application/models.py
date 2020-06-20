@@ -10,8 +10,14 @@ from mongoengine import *
 def load_user(id):
     return User.objects(pk = id).first()
 
+# ------ ID MODEL ------ #
+class RecipeID(db.Document):
+    recipe_id               = db.IntField()
+
+
 # ------ RECIPE MODEL ------ #
 class Recipe(db.Document):
+    recipe_mongo_id         = db.ReferenceField('RecipeID')
     recipe_id               = db.IntField()
     title                   = db.StringField(max_length = 50)    
     description             = db.StringField(max_length = 50)
@@ -23,7 +29,8 @@ class Recipe(db.Document):
     calories                = db.DecimalField()
     protein                 = db.DecimalField()
     carbohydrates           = db.DecimalField()
-    cholesterol             = db.DecimalField()     
+    cholesterol             = db.DecimalField()
+    # author_id is MongoDB ID     
     author_id               = db.ReferenceField('User')
     author                  = db.StringField(max_length = 50)
     recipe_image            = db.ImageField()

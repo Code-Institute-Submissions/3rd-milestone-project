@@ -1,7 +1,7 @@
 from flask import render_template, url_for, redirect, flash, request, abort, send_file
 from application import app, db
 from application.forms import LoginForm, RegistrationForm, AddRecipeForm
-from application.models import Recipe, User
+from application.models import Recipe, User, RecipeID
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import datetime
@@ -46,7 +46,7 @@ def add_recipe():
    
     # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
-        recipe_id       = Recipe.objects.count() + 1
+        recipe_id       = RecipeID.objects.count() + 1
         title           = form.title.data
         description     = form.description.data
 
@@ -61,8 +61,10 @@ def add_recipe():
             recipe_image_name = "_".join([prefix, secure_image_name])  
 
         # Create new instance of recipe
+        new_recipe_id = RecipeID(recipe_id = recipe_id)
         new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author, recipe_image = recipe_image, recipe_image_name = recipe_image_name)
         # Insert record to the DB
+        new_recipe_id.save()
         new_recipe.save()
         flash('Your awesome recipe has been added!', 'success')
         # Go to all my recipes page after submitting a recipe
@@ -194,7 +196,7 @@ def login():
             else:
                 return redirect(url_for('account'))
         else:
-            flash('Login failed. Please make sure you used the correct username (= e-mail) and password!', 'danger')
+            flash('Login failed. Please make sure you use the correct username (= e-mail) and password!', 'danger')
     # Render html, giving its title and passing in the form
     return render_template('login.html', title = 'Login', form = form)
 
