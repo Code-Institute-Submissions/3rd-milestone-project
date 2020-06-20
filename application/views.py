@@ -28,6 +28,12 @@ def recipes():
     # Render html, giving its title and passing in recipes
     return render_template('recipes.html', recipes = recipes, pagination = pagination)
 
+# ------ HELPER ROUTE TO SHOW IMAGES ------ #
+@app.route('/images/<image_name>')
+def get_image(image_name):
+    image = Recipe.objects(recipe_image_name = image_name).first()
+    return send_file(image.recipe_image, mimetype='image')
+
 # ------ ADD RECIPE ------ #
 @app.route("/recipe/add", methods=['GET', 'POST'])
 # Login is required for add recipe page
@@ -116,12 +122,6 @@ def delete_recipe(recipe_id):
     recipe.delete()
     flash('Your recipe has been deleted. We hope to see you adding a new recipe soon ;)', 'success')
     return redirect(url_for('my_recipes')) 
-
-# ------ HELPER ROUTE TO SHOW IMAGES ------ #
-@app.route('/images/<image_name>')
-def get_image(image_name):
-    image = Recipe.objects(recipe_image_name = image_name).first()
-    return send_file(image.recipe_image, mimetype='image')
 
 # ------ VIEW RECIPE BY RECIPE ID ------ #
 @app.route('/recipe/<recipe_id>')
