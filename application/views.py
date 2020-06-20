@@ -11,7 +11,11 @@ from flask_paginate import Pagination, get_page_parameter
 @app.route("/home")
 @app.route("/index")
 def home():
-    return render_template('index.html')
+
+    total_meat_recipes          = Recipe.objects(category_name = "Meat").count()
+    total_seafood_recipes       = Recipe.objects(category_name = "Seafood").count()
+    total_vegetarian_recipes    = Recipe.objects(category_name = "Vegetarian").count()
+    return render_template('index.html', total_meat_recipes = total_meat_recipes, total_seafood_recipes = total_seafood_recipes, total_vegetarian_recipes = total_vegetarian_recipes)
 
 # ------ GET ALL RECIPES ------ #
 @app.route("/recipes")
@@ -21,9 +25,12 @@ def recipes():
 
     # Get recipe and order descending so that newest recipes come first
     recipes = Recipe.objects.order_by('-recipe_id')
+    # Count number of recipes
+    total_recipes = recipes.count()
 
     # Configure pagination setting
-    pagination = Pagination(page = page, total = recipes.count(), record_name = 'recipes', per_page = 5, css_framework = 'bootstrap4')
+    pagination = Pagination(page = page, total = total_recipes, record_name = 'recipes', per_page = 5, css_framework = 'bootstrap4')
+
     
     # Render html, giving its title and passing in recipes
     return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination)

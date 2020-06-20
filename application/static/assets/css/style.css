@@ -38,6 +38,11 @@ body {
   font-size: 1rem;
 }
 
+.total-per-category {
+  position: absolute;
+  bottom: 10px;
+}
+
 /* My recipe */
 .my-recipe-title .edit,
 .trash {

@@ -20,7 +20,7 @@
     <div class="row">
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm h-100">
-          <h4 class="card-title p-2 uppercase">Meat</h4>
+          <h4 class="card-title pt-2 uppercase text-center">Meat</h4>
           <div class="card-img">
             <img
               src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
@@ -30,17 +30,19 @@
           </div>
           <div class="card-body">
             <p class="card-text">
-              Dummy text
+              Featuring grilled steak, chicken, and pork, they're some of our
+              very favorite recipes. We love them for family dinners and weekend
+              parties.
             </p>
-            <div>
-              <small class="text-muted"># recipes</small>
+            <div class="total-per-category">
+              <small class="text-muted">{{total_meat_recipes}} recipes</small>
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm h-100">
-          <h4 class="card-title p-2 uppercase">Seafood</h4>
+          <h4 class="card-title pt-2 uppercase text-center">Seafood</h4>
           <div class="card-img">
             <img
               src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
@@ -50,17 +52,20 @@
           </div>
           <div class="card-body">
             <p class="card-text">
-              Dummy text
+              Seafood on the BBQ plate? Fast, easy and delicious. What would you
+              like more, except for a cold beer?
             </p>
-            <div>
-              <small class="text-muted"># recipes</small>
+            <div class="total-per-category">
+              <small class="text-muted"
+                >{{total_seafood_recipes}} recipes</small
+              >
             </div>
           </div>
         </div>
       </div>
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm h-100">
-          <h4 class="card-title p-2 uppercase">Vegetarian</h4>
+          <h4 class="card-title pt-2 uppercase text-center">Vegetarian</h4>
           <div class="card-img">
             <img
               src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
@@ -70,10 +75,13 @@
           </div>
           <div class="card-body">
             <p class="card-text">
-              Dummy text
+              Who says BBQ is only for meat lovers? We are sure you will find
+              your favorite vegetarian grilling recipe.
             </p>
-            <div>
-              <small class="text-muted"># recipes</small>
+            <div class="total-per-category">
+              <small class="text-muted"
+                >{{total_vegetarian_recipes}} recipes</small
+              >
             </div>
           </div>
         </div>
