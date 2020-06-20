@@ -43,3 +43,12 @@ body {
 .trash {
   font-size: 1.2em;
 }
+
+/* Footer */
+footer ul {
+  padding-left: 0;
+}
+
+footer ul li {
+  list-style: none;
+}
