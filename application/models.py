@@ -13,8 +13,17 @@ def load_user(id):
 # ------ RECIPE MODEL ------ #
 class Recipe(db.Document):
     recipe_id               = db.IntField()
-    title                   = db.StringField(max_length = 50)
+    title                   = db.StringField(max_length = 50)    
     description             = db.StringField(max_length = 50)
+    category_name           = db.StringField(max_length = 50)
+    ingredients             = db.StringField(max_length = 50)
+    directions              = db.StringField(max_length = 50)
+    preparation_time        = db.IntField()
+    cooking_time            = db.IntField()
+    calories                = db.DecimalField()
+    protein                 = db.DecimalField()
+    carbohydrates           = db.DecimalField()
+    cholesterol             = db.DecimalField()     
     author_id               = db.ReferenceField('User')
     author                  = db.StringField(max_length = 50)
     recipe_image            = db.ImageField()
