@@ -26,7 +26,7 @@ def recipes():
     pagination = Pagination(page = page, total = recipes.count(), record_name = 'recipes', per_page = 5, css_framework = 'bootstrap4')
     
     # Render html, giving its title and passing in recipes
-    return render_template('recipes.html', recipes = recipes, pagination = pagination)
+    return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination)
 
 # ------ HELPER ROUTE TO SHOW IMAGES ------ #
 @app.route('/images/<image_name>')
@@ -51,7 +51,7 @@ def add_recipe():
         title               = form.title.data
         description         = form.description.data
         category_name       = form.category_name.data
-        ingredients         = form.ingredients.data    
+        ingredients         = form.ingredients.data
         directions          = form.directions.data    
         preparation_time    = form.preparation_time.data 
         cooking_time        = form.cooking_time.data        

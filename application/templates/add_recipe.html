@@ -1,6 +1,11 @@
 {% extends 'base.html'%} {% block content %}
 
 <section class="section-add-recipe">
+  <div class="container">
+    <div class="mt-2">
+    <h1>Add your awesome recipe</h1>
+  </div>
+    <hr>
   <form method="POST" action="" enctype="multipart/form-data" novalidate>
     {{ form.hidden_tag() }}
     <div class="form-group">
@@ -27,29 +32,22 @@
       endif %}
     </div>
     <div class="form-group">
-      {{ form.category_name.label(class="form-control-label") }} {% if
-      form.category_name.errors %} {{ form.category_name(class="form-control
-      form-control-lg is-invalid") }}
-      <div class="invalid-feedback">
-        {% for error in form.category_name.errors %}
-        <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-      {% else %} {{ form.category_name(class="form-control form-control-lg") }} {%
-      endif %}
+      {{ form.category_name.label(class="form-control-label")  }}
+      {{  form.category_name(class="form-control form-control-lg")  }}
     </div>
     <div class="form-group">
       {{ form.ingredients.label(class="form-control-label") }} {% if
-      form.ingredients.errors %} {{ form.ingredients(class="form-control
-      form-control-lg is-invalid") }}
-      <div class="invalid-feedback">
-        {% for error in form.ingredients.errors %}
-        <span>{{ error }}</span>
-        {% endfor %}
-      </div>
-      {% else %} {{ form.ingredients(class="form-control form-control-lg") }} {%
-      endif %}
+        form.ingredients.errors %} {{ form.ingredients(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.ingredients.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.ingredients(class="form-control form-control-lg") }} {%
+        endif %}
     </div>
+
     <div class="form-group">
       {{ form.directions.label(class="form-control-label") }} {% if
       form.directions.errors %} {{ form.directions(class="form-control
@@ -147,9 +145,9 @@
       {% endif %}
   </div>
     <div class="form-group">
-      {{ form.submit(class="btn btn-outline-success") }}
+      {{ form.submit(class="btn btn-outline-success btn-lg") }}
     </div>
-  </form>
+  </form></div>
 </section>
 
 {% endblock %}
