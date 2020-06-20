@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DecimalField
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from application.models import User, Recipe
@@ -38,6 +38,15 @@ class RegistrationForm(FlaskForm):
 class AddRecipeForm(FlaskForm):
     title                   = StringField('Title', validators=[DataRequired(message="Please enter a title for your recipe.")])
     description             = StringField('Description', validators=[DataRequired(message="Please enter a description for your recipe.")])
+    category_name           = StringField('Category', validators=[DataRequired(message="Please enter a category for your recipe.")])
+    ingredients             = StringField('Ingredients', validators=[DataRequired(message="Please enter ingredients for your recipe.")])
+    directions              = StringField('Directions', validators=[DataRequired(message="Please enter directions for your recipe.")])
+    preparation_time        = IntegerField('Preparation time in minutes', validators=[DataRequired(message="Please enter the preparation time for your recipe.")])
+    cooking_time            = IntegerField('Cooking time in minutes', validators=[DataRequired(message="Please enter the cooking time for your recipe.")])
+    calories                = DecimalField('Calories', validators=[DataRequired(message="Please enter the calories for your recipe.")])
+    protein                 = DecimalField('Protein', validators=[DataRequired(message="Please enter the protein for your recipe.")])
+    carbohydrates           = DecimalField('Carbohydrates', validators=[DataRequired(message="Please enter the carbohydrates for your recipe.")])
+    cholesterol             = DecimalField('Cholesterol', validators=[DataRequired(message="Please enter the cholesterol for your recipe.")])  
     recipe_image            = FileField('Upload recipe image', validators=[FileRequired(), FileAllowed(['jpg','jpeg', 'png', 'gif'], 'Images only please!')])
     submit                  = SubmitField('Submit')
 
