@@ -46,9 +46,19 @@ def add_recipe():
    
     # Check if a request is both a POST request and a valid request
     if form.validate_on_submit():
-        recipe_id       = RecipeID.objects.count() + 1
-        title           = form.title.data
-        description     = form.description.data
+        # Count recipe ID's in separate collection so that numbers stay unique
+        recipe_id           = RecipeID.objects.count() + 1
+        title               = form.title.data
+        description         = form.description.data
+        category_name       = form.category_name.data
+        ingredients         = form.ingredients.data    
+        directions          = form.directions.data    
+        preparation_time    = form.preparation_time.data 
+        cooking_time        = form.cooking_time.data        
+        calories            = form.calories.data              
+        protein             = form.protein.data               
+        carbohydrates       = form.carbohydrates.data           
+        cholesterol         = form.cholesterol.data               
 
         # Check if recipe image is selected by user
         if 'recipe_image' in request.files:
@@ -61,8 +71,11 @@ def add_recipe():
             recipe_image_name = "_".join([prefix, secure_image_name])  
 
         # Create new instance of recipe
-        new_recipe_id = RecipeID(recipe_id = recipe_id)
-        new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author, recipe_image = recipe_image, recipe_image_name = recipe_image_name)
+        new_recipe_id   = RecipeID(recipe_id = recipe_id)
+        new_recipe      = Recipe(recipe_id = recipe_id, title = title, description = description, category_name = category_name, ingredients = ingredients,\
+                            directions = directions, preparation_time = preparation_time, cooking_time = cooking_time, calories = calories, protein = protein,\
+                            carbohydrates = carbohydrates, cholesterol = cholesterol, author_id = author_id, author = author, recipe_image = recipe_image,\
+                            recipe_image_name = recipe_image_name)
         # Insert record to the DB
         new_recipe_id.save()
         new_recipe.save()
