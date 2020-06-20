@@ -43,6 +43,21 @@ body {
   bottom: 10px;
 }
 
+/* Recipe */
+.recipe-image img {
+  width: 100%;
+}
+
+.nutrition-info ul {
+  padding-left: 0;
+  background: #f0f0f0;
+}
+
+.nutrition-info ul li {
+  list-style: none;
+  border-bottom: 1px dashed #d3d3d3;
+}
+
 /* My recipe */
 .my-recipe-title .edit,
 .trash {

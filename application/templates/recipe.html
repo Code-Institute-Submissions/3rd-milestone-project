@@ -1,14 +1,64 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>BBQ Recipes</h1>
+<section class="section-recipe">
+  <div class="container">
+    <div class="mt-2 text-center">
+      <h1>{{recipe.title }}</h1>
+    </div>
+    <hr />
+    <div class="row recipe-image">
+      <div class="col-12">
+        <img
+          src="/images/{{recipe.recipe_image_name }}"
+          alt="{{recipe.title}}"
+        />
+      </div>
+    </div>
+    <div class="bg-success">
+      <div class="row">
+        <div class="col-md-4 col-12">
+          <h3 class="p-2">Preparation time:</h3>
+          <p class="pl-2">
+            <strong
+              ><i class="fa fa-clock-o mr-2"></i>{{recipe.preparation_time}}
+              min</strong
+            >
+          </p>
+        </div>
+        <div class="col-md-4 col-12">
+          <h3 class="p-2">Cooking time:</h3>
+          <p class="pl-2">
+            <strong
+              ><i class="fa fa-clock-o mr-2"></i>{{recipe.cooking_time}}
+              min</strong
+            >
+          </p>
+        </div>
+        <div class="col-md-4 col-12">
+          <h3 class="p-2">Total time:</h3>
+          <p class="pl-2">
+            <strong
+              ><i class="fa fa-clock-o mr-2"></i>{{total_cooking_time }}
+              min</strong
+            >
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="row pt-3">
+      <div class="col-md-9 col-12">
+        <p>{{recipe.description}}</p>
+      </div>
+      <div class="col-md-3 col-12 nutrition-info">
+        <ul>
+          <li class="p-2">Calories: {{recipe.calories}}</li>
+          <li class="p-2">Protein: {{recipe.protein}}</li>
+          <li class="p-2">Carbohydrates: {{recipe.carbohydrates}}</li>
+          <li class="p-2">Cholesterol: {{recipe.cholesterol}}</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-<div>
-  <p>{{recipe.author }}</p>
-  <p>{{recipe.title }}</p>
-  <p>{{recipe.description}}</p>
-  <img
-    src="/images/{{recipe.recipe_image_name }}"
-    alt="{{recipe.recipe_image_name }}"
-  />
-</div>
 {% endblock %}

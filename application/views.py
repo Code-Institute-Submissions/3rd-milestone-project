@@ -150,8 +150,9 @@ def delete_recipe(recipe_id):
 def recipe(recipe_id):
     recipe  = Recipe.objects.get_or_404(recipe_id = recipe_id)
     title   = recipe.title
+    total_cooking_time = recipe.preparation_time + recipe.cooking_time
     # Render html, giving its title and passing in the recipe object
-    return render_template('recipe.html', title = title, recipe = recipe)
+    return render_template('recipe.html', title = title, recipe = recipe, total_cooking_time = total_cooking_time)
 
 # ------ ALL MY RECIPES------ #
 @app.route("/recipe/all")
