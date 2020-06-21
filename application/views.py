@@ -121,7 +121,7 @@ def add_recipe():
         new_recipe.save()
         flash('Your awesome recipe has been added!', 'success')
         # Go to all my recipes page after submitting a recipe
-        return redirect(url_for('my_recipes'))
+        return redirect(url_for('account'))
     return render_template('add_recipe.html', title = 'Add recipe', form = form)
 
 # ------ EDIT/UPDATE SPECIFIC RECIPE ------ #
@@ -135,12 +135,21 @@ def edit_recipe(recipe_id):
         abort(403)
     form = AddRecipeForm()
     if form.validate_on_submit():
-        recipe.title        = form.title.data
-        recipe.description  = form.description.data
+        title               = form.title.data
+        description         = form.description.data
+        category_name       = form.category_name.data
+        ingredients         = form.ingredients.data
+        directions          = form.directions.data    
+        preparation_time    = form.preparation_time.data 
+        cooking_time        = form.cooking_time.data        
+        calories            = form.calories.data              
+        protein             = form.protein.data               
+        carbohydrates       = form.carbohydrates.data           
+        cholesterol         = form.cholesterol.data  
 
         # Check if recipe image is selected by user
         if 'recipe_image' in request.files:
-            recipe_image = request.files.get_image('recipe_image') 
+            recipe_image = request.files[ 'recipe_image'] 
 
             # Check if image name is secure by usering Werkzeug's secure_filename function
             secure_image_name = secure_filename(recipe_image.filename)
@@ -157,11 +166,20 @@ def edit_recipe(recipe_id):
         # Reference: https://docs.mongoengine.org/guide/document-instances.html#saving-and-deleting-documents
         recipe.save()
         flash('Your recipe has been changed. Thank you for keeping our website up to date with your latest taste sensations ;)', 'success')
-        return redirect(url_for('my_recipes'))
+        return redirect(url_for('account'))
     # Show existing data in form through GET request    
     elif request.method == 'GET':
-        form.title.data         = recipe.title
-        form.description.data   = recipe.description
+        form.title.data             = recipe.title
+        form.description.data       = recipe.description
+        form.category_name.data     = recipe.category_name
+        form.ingredients.data       = recipe.ingredients
+        form.directions.data        = recipe.directions
+        form.preparation_time.data  = recipe.preparation_time
+        form.cooking_time.data      = recipe.cooking_time
+        form.calories.data          = recipe.calories
+        form.protein.data           = recipe.protein       
+        form.carbohydrates.data     = recipe.carbohydrates
+        form.cholesterol.data       = recipe.cholesterol     
     # Render html, giving its title and passing in the form
     return render_template('add_recipe.html', title = 'Edit recipe', form = form)  
 
