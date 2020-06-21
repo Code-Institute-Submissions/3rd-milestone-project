@@ -25,7 +25,7 @@
               {{recipe.description}}
             </p>
           </div>
-          <ul class="list-group list-group-flush pb-5">
+          <ul class="list-group list-group-flush">
             <li class="list-group-item">{{recipe.calories}} calories</li>
             <li class="list-group-item">{{recipe.protein}} protein</li>
             <li class="list-group-item">
@@ -36,8 +36,28 @@
             </li>
           </ul>
           <div class="card-body footer-links">
-            <a href="#" class="card-link">{{recipe.category_name}}</a>
-            <a href="#" class="card-link">Another link</a>
+            <small>
+              {% if 'Meat' == recipe.category_name %}
+              <a href="{{ url_for('meat_recipes') }}" class="card-link"
+                >All
+                <span class="text-lowercase">{{recipe.category_name}}</span>
+                recipes</a
+              >
+              {% elif 'Seafood' == recipe.category_name %}
+              <a href="{{ url_for('seafood_recipes') }}" class="card-link"
+                >All
+                <span class="text-lowercase">{{recipe.category_name}}</span>
+                recipes</a
+              >
+              {% else %}
+              <a href="{{ url_for('vegetarian_recipes') }}" class="card-link"
+                >All
+                <span class="text-lowercase">{{recipe.category_name}}</span>
+                recipes</a
+              >
+
+              {% endif %}</small
+            >
           </div>
         </div>
       </div>
