@@ -23,7 +23,7 @@ def recipes():
     # Set default page parameter to 1
     page = request.args.get(get_page_parameter(), type = int, default = 1)
 
-    # Get recipe and order descending so that newest recipes come first
+    # Get recipes and order descending so that newest recipes come first
     recipes = Recipe.objects.order_by('-recipe_id')
     # Count number of recipes
     total_recipes = recipes.count()
@@ -31,9 +31,17 @@ def recipes():
     # Configure pagination setting
     pagination = Pagination(page = page, total = total_recipes, record_name = 'recipes', per_page = 3, css_framework = 'bootstrap4')
 
-    
     # Render html, giving its title and passing in recipes
     return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination, total_recipes = total_recipes)
+
+# ------ GET ALL RECIPES BY USER ------ #
+@app.route('/user/<author>')
+def user_recipes(author):
+    user_recipes        = Recipe.objects(author = author)
+    total_user_recipes  = user_recipes.count()
+    
+    # Render html, giving its title and passing in the recipe object
+    return render_template('user_recipes.html', title = 'test', user_recipes = user_recipes, total_user_recipes = total_user_recipes, author = author)
 
 # ------ GET ALL MEAT RECIPES ------ #
 @app.route("/meat-recipes")
@@ -197,7 +205,7 @@ def delete_recipe(recipe_id):
     return redirect(url_for('my_recipes')) 
 
 # ------ VIEW RECIPE BY RECIPE ID ------ #
-@app.route('/recipe/<recipe_id>')
+@app.route('/recipe/<int:recipe_id>')
 def recipe(recipe_id):
     recipe  = Recipe.objects.get_or_404(recipe_id = recipe_id)
     title   = recipe.title
