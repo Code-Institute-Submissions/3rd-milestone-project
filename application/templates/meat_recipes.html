@@ -1,0 +1,47 @@
+{% extends "base.html" %} {% block content %}
+<section class="section-recipes">
+  <div class="container">
+    <div class="mt-2 text-center">
+      <h1>All {{total_recipes}} meat recipes</h1>
+    </div>
+    <hr />
+
+    <div class="row">
+      {% for recipe in recipes %}
+      <div class="col-sm-12 col-md-4 my-3">
+        <div class="card h-100">
+          <img
+            src="/images/{{recipe.recipe_image_name }}"
+            class="card-img-top"
+            alt="{{recipe.title}}"
+          />
+          <div class="card-body">
+            <h4 class="card-title font-weight-bold text-truncate">
+              {{recipe.title }}
+            </h4>
+
+            <p class="card-text card-text-truncate">
+              {{recipe.description}}
+            </p>
+          </div>
+          <ul class="list-group list-group-flush pb-5">
+            <li class="list-group-item">{{recipe.calories}} calories</li>
+            <li class="list-group-item">{{recipe.protein}} protein</li>
+            <li class="list-group-item">
+              {{recipe.carbohydrates}} carbohydrates
+            </li>
+            <li class="list-group-item">
+              {{recipe.cholesterol}} cholesterol
+            </li>
+          </ul>
+          <div class="card-body footer-links">
+            <a href="#" class="card-link">{{recipe.category_name}}</a>
+            <a href="#" class="card-link">Another link</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

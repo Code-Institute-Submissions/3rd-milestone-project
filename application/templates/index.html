@@ -20,13 +20,19 @@
     <div class="row">
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm h-100">
-          <h4 class="card-title pt-2 uppercase text-center">Meat</h4>
+          <a href="{{ url_for('meat_recipes') }}">
+            <h4 class="card-title pt-2 uppercase text-center">
+              BBQ with meat
+            </h4></a
+          >
           <div class="card-img">
-            <img
-              src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
-              class="img-fluid"
-              alt="BBQ Meat"
-            />
+            <a href="{{ url_for('meat_recipes') }}">
+              <!-- Credits Pixabay user: ReinhardThrainer / https://pixabay.com/nl/photos/biefstuk-tomahawk-steak-grillen-4342500/ -->
+              <img
+                src="{{url_for('static', filename='assets/images/steak-4342500_640.jpg')}}"
+                class="img-fluid"
+                alt="BBQ Meat"
+            /></a>
           </div>
           <div class="card-body">
             <p class="card-text">
@@ -42,13 +48,19 @@
       </div>
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm h-100">
-          <h4 class="card-title pt-2 uppercase text-center">Seafood</h4>
+          <a href="{{ url_for('seafood_recipes') }}"
+            ><h4 class="card-title pt-2 uppercase text-center">
+              BBQ with seafood
+            </h4></a
+          >
           <div class="card-img">
-            <img
-              src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
-              class="img-fluid"
-              alt="BBQ Seafood"
-            />
+            <a href="{{ url_for('seafood_recipes') }}">
+              <!-- Credits Pixabay user: Werasak / https://pixabay.com/nl/photos/gegrilde-inktvis-squid-grill-eten-1446233/ -->
+              <img
+                src="{{url_for('static', filename='assets/images/grilled-squid-1446233_640.jpg')}}"
+                class="img-fluid"
+                alt="BBQ Seafood"
+            /></a>
           </div>
           <div class="card-body">
             <p class="card-text">
@@ -65,13 +77,19 @@
       </div>
       <div class="col-md-4">
         <div class="card mb-4 shadow-sm h-100">
-          <h4 class="card-title pt-2 uppercase text-center">Vegetarian</h4>
+          <a href="{{ url_for('vegetarian_recipes') }}"
+            ><h4 class="card-title pt-2 uppercase text-center">
+              Vegetarian
+            </h4></a
+          >
           <div class="card-img">
-            <img
-              src="{{url_for('static', filename='assets/images/default-bbq-810545_640.jpg')}}"
-              class="img-fluid"
-              alt="BBQ Vegetarian"
-            />
+            <a href="{{ url_for('vegetarian_recipes') }}">
+              <!-- Credits Pixabay user: Einladung_zum_Essen / https://pixabay.com/nl/photos/spit-antipasti-tomaten-olijven-2397041/ -->
+              <img
+                src="{{url_for('static', filename='assets/images/spit-2397041_640.jpg')}}"
+                class="img-fluid"
+                alt="BBQ Vegetarian"
+            /></a>
           </div>
           <div class="card-body">
             <p class="card-text">

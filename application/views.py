@@ -35,6 +35,39 @@ def recipes():
     # Render html, giving its title and passing in recipes
     return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination, total_recipes = total_recipes)
 
+# ------ GET ALL MEAT RECIPES ------ #
+@app.route("/meat-recipes")
+def meat_recipes():
+    # Get recipe and order descending so that newest recipes come first
+    recipes = Recipe.objects(category_name = "Meat").order_by('-recipe_id')
+    # Count number of recipes
+    total_recipes = Recipe.objects(category_name = "Meat").count()
+        
+    # Render html, giving its title and passing in recipes
+    return render_template('meat_recipes.html', title = 'All meat recipes', recipes = recipes, total_recipes = total_recipes)
+
+# ------ GET ALL SEAFOOD RECIPES ------ #
+@app.route("/seafood-recipes")
+def seafood_recipes():
+    # Get recipe and order descending so that newest recipes come first
+    recipes = Recipe.objects(category_name = "Seafood").order_by('-recipe_id')
+    # Count number of recipes
+    total_recipes = Recipe.objects(category_name = "Seafood").count()
+        
+    # Render html, giving its title and passing in recipes
+    return render_template('seafood_recipes.html', title = 'All seafood recipes', recipes = recipes, total_recipes = total_recipes)
+
+# ------ GET ALL VEGETARIAN RECIPES ------ #
+@app.route("/vegetarian-recipes")
+def vegetarian_recipes():
+    # Get recipe and order descending so that newest recipes come first
+    recipes = Recipe.objects(category_name = "Vegetarian").order_by('-recipe_id')
+    # Count number of recipes
+    total_recipes = Recipe.objects(category_name = "Vegetarian").count()
+        
+    # Render html, giving its title and passing in recipes
+    return render_template('vegetarian_recipes.html', title = 'All vegetarian recipes', recipes = recipes, total_recipes = total_recipes)
+
 # ------ HELPER ROUTE TO SHOW IMAGES ------ #
 @app.route('/images/<image_name>')
 def get_image(image_name):
