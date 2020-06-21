@@ -128,7 +128,7 @@ def add_recipe():
         new_recipe_id.save()
         new_recipe.save()
         flash('Your awesome recipe has been added!', 'success')
-        # Go to all my recipes page after submitting a recipe
+        # Go to all account page after submitting a recipe
         return redirect(url_for('account'))
     return render_template('add_recipe.html', title = 'Add recipe', form = form)
 
@@ -202,7 +202,7 @@ def delete_recipe(recipe_id):
         abort(403)
     recipe.delete()
     flash('Your recipe has been deleted. We hope to see you adding a new recipe soon ;)', 'success')
-    return redirect(url_for('my_recipes')) 
+    return redirect(url_for('account')) 
 
 # ------ VIEW RECIPE BY RECIPE ID ------ #
 @app.route('/recipe/<int:recipe_id>')
