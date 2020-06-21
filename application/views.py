@@ -29,11 +29,11 @@ def recipes():
     total_recipes = recipes.count()
 
     # Configure pagination setting
-    pagination = Pagination(page = page, total = total_recipes, record_name = 'recipes', per_page = 5, css_framework = 'bootstrap4')
+    pagination = Pagination(page = page, total = total_recipes, record_name = 'recipes', per_page = 3, css_framework = 'bootstrap4')
 
     
     # Render html, giving its title and passing in recipes
-    return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination)
+    return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination, total_recipes = total_recipes)
 
 # ------ HELPER ROUTE TO SHOW IMAGES ------ #
 @app.route('/images/<image_name>')

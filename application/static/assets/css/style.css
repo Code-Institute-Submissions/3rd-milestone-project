@@ -9,6 +9,14 @@ body {
   overflow-x: hidden;
 }
 
+.card-text-truncate {
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
 /* Navigation */
 .navbar-brand img {
   height: 5vh;
@@ -43,7 +51,13 @@ body {
   bottom: 10px;
 }
 
-/* Recipe */
+/* All recipes */
+.footer-links {
+  position: absolute;
+  bottom: 0;
+}
+
+/* Single recipe */
 .recipe-image img {
   width: 100%;
 }
