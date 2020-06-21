@@ -187,42 +187,18 @@ def recipe(recipe_id):
     # Render html, giving its title and passing in the recipe object
     return render_template('recipe.html', title = title, recipe = recipe, total_cooking_time = total_cooking_time)
 
-# ------ ALL MY RECIPES------ #
-@app.route("/recipe/all")
-# Login is required for account page
-@login_required
-def my_recipes():
-    # Access the underlying object User that is proxied for making the ReferenceField author work
-    author_id  = current_user._get_current_object()
-   
-    # Make recipe list by author id
-    recipe_list = Recipe.objects(author_id = author_id)
-    # Render html, giving its title and user specific recipes
-    return render_template('my_recipes.html', title = 'All my recipes', recipe_list = recipe_list)
-
 # ------ USER ACCOUNT ------ #
 @app.route("/account", methods=['GET', 'POST'])
 # Login is required for account page
 @login_required
 def account():
-    form    = AddRecipeForm()
-    # Access the underlying object User that is proxied for making the ReferenceField author work
-    author_id  = current_user._get_current_object()
-    author     = current_user.username 
+    author              = current_user.username
+    user_first_name     = current_user.first_name 
    
     # Make recipe list by author
     recipe_list = Recipe.objects(author = author)
-    # Check if a request is both a POST request and a valid request
-    if form.validate_on_submit():
-        recipe_id       = Recipe.objects.count() + 1
-        title           = form.title.data
-        description     = form.description.data        
-        # Create new instance of recipe
-        new_recipe = Recipe(recipe_id = recipe_id, title = title, description = description, author_id = author_id, author = author)
-        # Insert record to the DB
-        new_recipe.save()
-        flash('Your awesome recipe has been added!', 'success')    
-    return render_template('account.html', title = 'User account', form = form, recipe_list = recipe_list)
+     
+    return render_template('account.html', title = 'User account', recipe_list = recipe_list, user_first_name = user_first_name)
 
 # ------ LOGIN ------ #
 @app.route("/login", methods=['GET', 'POST'])
