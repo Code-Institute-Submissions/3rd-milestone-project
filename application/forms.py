@@ -47,5 +47,5 @@ class AddRecipeForm(FlaskForm):
     protein                 = DecimalField('Protein', validators=[DataRequired(message="Please enter the protein for your recipe.")])
     carbohydrates           = DecimalField('Carbohydrates', validators=[DataRequired(message="Please enter the carbohydrates for your recipe.")])
     cholesterol             = DecimalField('Cholesterol', validators=[DataRequired(message="Please enter the cholesterol for your recipe.")])  
-    recipe_image            = FileField('Upload recipe image', validators=[FileAllowed(['jpg','jpeg', 'png', 'gif'], 'Images only please!')])
+    recipe_image            = FileField('Upload recipe image', validators=[FileRequired(), FileAllowed(['jpg','jpeg', 'png', 'gif'], 'Images only please!')])
     submit                  = SubmitField('Submit')
