@@ -49,3 +49,8 @@ class AddRecipeForm(FlaskForm):
     cholesterol             = DecimalField('Cholesterol', validators=[DataRequired(message="Please enter the cholesterol for your recipe.")])  
     recipe_image            = FileField('Upload recipe image', validators=[FileRequired(), FileAllowed(['jpg','jpeg', 'png', 'gif'], 'Images only please!')])
     submit                  = SubmitField('Submit')
+
+
+class testForm(FlaskForm):
+    text                    = StringField('Search in title')
+    submit                  = SubmitField('Submit')

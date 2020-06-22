@@ -1,6 +1,6 @@
 from flask import render_template, url_for, redirect, flash, request, abort, send_file
 from application import app, db
-from application.forms import LoginForm, RegistrationForm, AddRecipeForm
+from application.forms import LoginForm, RegistrationForm, AddRecipeForm, testForm
 from application.models import Recipe, User, RecipeID
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
@@ -33,6 +33,31 @@ def recipes():
 
     # Render html, giving its title and passing in recipes
     return render_template('recipes.html', title = 'All recipes', recipes = recipes, pagination = pagination, total_recipes = total_recipes)
+
+
+# ------ GET ALL RECIPES ------ #
+@app.route("/test")
+def test():
+    form = testForm()
+    # Get recipes and order descending so that newest recipes come first
+    recipes = Recipe.objects.order_by('-recipe_id')
+    # Count number of recipes
+    total_recipes = recipes.count()
+    
+    # Render html, giving its title and passing in recipes
+    return render_template('test.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form)
+
+
+@app.route('/search')
+def search():
+    form = testForm()
+    text = form.text.data
+    filtered_recipes = filtered_recipes = Recipe.objects.filter(title__icontains = text)
+    total_recipes = filtered_recipes.count()
+
+    return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes)    
+
+
 
 # ------ GET ALL RECIPES BY USER ------ #
 @app.route('/user/<author>')

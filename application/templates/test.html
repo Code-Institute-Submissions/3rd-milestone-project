@@ -1,0 +1,86 @@
+{% extends "base.html" %} {% block content %} {% include 'flash_messages.html'
+%}
+<section class="section-recipes">
+  <div class="container">
+    <div class="mt-2 text-center">
+      <h1>All {{total_recipes}} recipes</h1>
+    </div>
+    <hr />
+
+        <form method="GET" action="search" novalidate>
+          <div class="form-group"> {{ form.text.label(class="form-control-label")
+          }} {{ form.text(class="form-control form-control-lg mb-3") }}
+
+          <div class="form-group">
+            {{ form.submit(class="btn btn-outline-success btn-lg") }}
+          </div>
+        </form>
+
+
+    <div class="row">
+      {% for recipe in recipes %}
+      <div class="col-sm-12 col-md-4 my-3">
+        <div class="card h-100">
+          <div class="card-header">
+            <i class="fa fa-user-circle pr-2"></i
+            ><a href="{{ url_for('user_recipes', author = recipe.author) }}">
+              {{recipe.author}}</a
+            >
+          </div>
+          <img
+            src="/images/{{recipe.recipe_image_name }}"
+            class="card-img-top"
+            alt="{{recipe.title}}"
+          />
+          <div class="card-body">
+            <h4 class="card-title font-weight-bold text-truncate">
+              {{recipe.title }}
+            </h4>
+
+            <p class="card-text card-text-truncate">
+              {{recipe.description}}
+            </p>
+          </div>
+          <div class="pb-5">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">{{recipe.calories}} calories</li>
+              <li class="list-group-item">{{recipe.protein}} protein</li>
+              <li class="list-group-item">
+                {{recipe.carbohydrates}} carbohydrates
+              </li>
+              <li class="list-group-item">
+                {{recipe.cholesterol}} cholesterol
+              </li>
+            </ul>
+          </div>
+          <div class="card-body footer-links">
+            <small>
+              {% if 'Meat' == recipe.category_name %}
+              <a href="{{ url_for('meat_recipes') }}" class="card-link"
+                >All
+                <span class="text-lowercase">{{recipe.category_name}}</span>
+                recipes</a
+              >
+              {% elif 'Seafood' == recipe.category_name %}
+              <a href="{{ url_for('seafood_recipes') }}" class="card-link"
+                >All
+                <span class="text-lowercase">{{recipe.category_name}}</span>
+                recipes</a
+              >
+              {% else %}
+              <a href="{{ url_for('vegetarian_recipes') }}" class="card-link"
+                >All
+                <span class="text-lowercase">{{recipe.category_name}}</span>
+                recipes</a
+              >
+
+              {% endif %}</small
+            >
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}
