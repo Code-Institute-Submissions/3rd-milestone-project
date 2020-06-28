@@ -4,6 +4,8 @@ from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationE
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from application.models import User, Recipe
 
+category_choices            = [("Meat", "Meat"), ("Seafood","Seafood"), ("Vegetarian","Vegetarian")]
+
 # ------ LOGIN FORM ------ #
 class LoginForm(FlaskForm):
     email                   = StringField('E-mail', validators=[DataRequired(message="Please enter your e-mail.")])
@@ -38,7 +40,7 @@ class RegistrationForm(FlaskForm):
 class AddRecipeForm(FlaskForm):
     title                   = StringField('Title', validators=[DataRequired(message="Please enter a title for your recipe."), Length(max=50, message="Please keep your title short (max 50 characters)!")])
     description             = TextAreaField('Description', validators=[DataRequired(message="Please enter a description for your recipe."), Length(min=150, message="Your awesome recipe deserves more text!")])
-    category_name           = SelectField('Category', choices=[("Meat", "Meat"), ("Seafood","Seafood"), ("Vegetarian","Vegetarian")])
+    category_name           = SelectField('Category', choices=category_choices)
     ingredients             = TextAreaField('Ingredients', validators=[DataRequired(message="Please enter ingredients for your recipe.")])
     directions              = TextAreaField('Directions', validators=[DataRequired(message="Please enter directions for your recipe.")])
     preparation_time        = IntegerField('Preparation time in minutes', validators=[DataRequired(message="Please enter the preparation time for your recipe.")])
@@ -52,5 +54,6 @@ class AddRecipeForm(FlaskForm):
 
 
 class testForm(FlaskForm):
-    text                    = StringField('Search in title')
+    search_text             = StringField('Search in title')
+    category_name           = SelectField('Category', choices=category_choices)
     submit                  = SubmitField('Submit')

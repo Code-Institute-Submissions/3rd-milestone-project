@@ -6,6 +6,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import datetime
 from flask_paginate import Pagination, get_page_parameter
+from mongoengine.queryset.visitor import Q
 
 @app.route("/")
 @app.route("/home")
@@ -50,14 +51,13 @@ def test():
 
 @app.route('/search')
 def search():
-    form = testForm()
-    text = form.text.data
-    filtered_recipes = filtered_recipes = Recipe.objects.filter(title__icontains = text)
-    total_recipes = filtered_recipes.count()
+    form                = testForm()
+    search_text         = request.args.get('search_text')
+    category_name       = request.args.get('category_name')
+    filtered_recipes    = Recipe.objects((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name))
+    total_recipes       = filtered_recipes.count()
 
-    return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes)    
-
-
+    return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name)    
 
 # ------ GET ALL RECIPES BY USER ------ #
 @app.route('/user/<author>')
