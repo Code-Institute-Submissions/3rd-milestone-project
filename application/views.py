@@ -1,6 +1,6 @@
 from flask import render_template, url_for, redirect, flash, request, abort, send_file
 from application import app, db
-from application.forms import LoginForm, RegistrationForm, AddRecipeForm, testForm
+from application.forms import LoginForm, RegistrationForm, AddRecipeForm, searchForm
 from application.models import Recipe, User, RecipeID
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
@@ -39,7 +39,7 @@ def recipes():
 # ------ GET ALL RECIPES ------ #
 @app.route("/test")
 def test():
-    form = testForm()
+    form = searchForm()
     # Get recipes and order descending so that newest recipes come first
     recipes = Recipe.objects.order_by('-recipe_id')
     # Count number of recipes
@@ -51,10 +51,15 @@ def test():
 
 @app.route('/search')
 def search():
-    form                = testForm()
+    form                = searchForm()
     search_text         = request.args.get('search_text')
     category_name       = request.args.get('category_name')
-    filtered_recipes    = Recipe.objects((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name))
+
+    if category_name == "":
+        filtered_recipes    = Recipe.objects(Q(title__icontains = search_text) | Q(description__icontains = search_text))
+    else: 
+        filtered_recipes    = Recipe.objects((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name))
+    
     total_recipes       = filtered_recipes.count()
 
     return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name)    

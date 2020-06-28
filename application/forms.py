@@ -53,7 +53,7 @@ class AddRecipeForm(FlaskForm):
     submit                  = SubmitField('Submit')
 
 
-class testForm(FlaskForm):
+class searchForm(FlaskForm):
     search_text             = StringField('Search in title')
-    category_name           = SelectField('Category', choices=category_choices)
+    category_name           = SelectField('Category', choices=[("", "---")] + category_choices)
     submit                  = SubmitField('Submit')
