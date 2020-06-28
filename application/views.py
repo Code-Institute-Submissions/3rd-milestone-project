@@ -162,17 +162,17 @@ def edit_recipe(recipe_id):
         abort(403)
     form = AddRecipeForm()
     if form.validate_on_submit():
-        title               = form.title.data
-        description         = form.description.data
-        category_name       = form.category_name.data
-        ingredients         = form.ingredients.data
-        directions          = form.directions.data    
-        preparation_time    = form.preparation_time.data 
-        cooking_time        = form.cooking_time.data        
-        calories            = form.calories.data              
-        protein             = form.protein.data               
-        carbohydrates       = form.carbohydrates.data           
-        cholesterol         = form.cholesterol.data  
+        recipe.title               = form.title.data
+        recipe.description         = form.description.data
+        recipe.category_name       = form.category_name.data
+        recipe.ingredients         = form.ingredients.data
+        recipe.directions          = form.directions.data    
+        recipe.preparation_time    = form.preparation_time.data 
+        recipe.cooking_time        = form.cooking_time.data        
+        recipe.calories            = form.calories.data              
+        recipe.protein             = form.protein.data               
+        recipe.carbohydrates       = form.carbohydrates.data           
+        recipe.cholesterol         = form.cholesterol.data  
 
         # Check if recipe image is selected by user
         if 'recipe_image' in request.files:
@@ -190,7 +190,7 @@ def edit_recipe(recipe_id):
             recipe.recipe_image_name    = recipe_image_name
 
         # Count total cooking time
-        total_cooking_time  = preparation_time + cooking_time   
+        total_cooking_time  = recipe.preparation_time + recipe.cooking_time   
 
         # MongoEngine tracks changes to documents to provide efficient saving. When document exists changes will be updated atomically. 
         # Reference: https://docs.mongoengine.org/guide/document-instances.html#saving-and-deleting-documents
