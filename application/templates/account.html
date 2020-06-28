@@ -35,12 +35,72 @@
           aria-labelledby="heading{{ recipe.recipe_id }}"
           data-parent="#my-recipe-accordion"
         >
-          <div class="card-body">
-            <img src="/images/{{recipe.recipe_image_name}}" alt="{{recipe.title}}" />
-            <p>
-              {{ recipe.description }}
-            </p>
+
+          <div class="row recipe-image">
+            <div class="col-12">
+              <img
+                src="/images/{{recipe.recipe_image_name }}"
+                alt="{{recipe.title}}"
+              />
+            </div>
           </div>
+          <div class="bg-primary">
+            <div class="row">
+              <div class="col-md-4 col-12">
+                <h5 class="pt-3 text-center text-white">Preparation time:</h5>
+                <p class="text-center text-white font-weight-bold">
+                  <strong
+                    ><i class="fa fa-clock-o mr-2"></i>{{recipe.preparation_time}}
+                    min</strong
+                  >
+                </p>
+              </div>
+              <div class="col-md-4 col-12">
+                <h5 class="pt-3 text-center text-white">Cooking time:</h5>
+                <p class="text-center text-white font-weight-bold">
+                  <strong
+                    ><i class="fa fa-clock-o mr-2"></i>{{recipe.cooking_time}}
+                    min</strong
+                  >
+                </p>
+              </div>
+              <div class="col-md-4 col-12">
+                <h5 class="pt-3 text-center text-white">Total time:</h5>
+                <p class="text-center text-white font-weight-bold">
+                  <strong
+                    ><i class="fa fa-clock-o mr-2"></i>{{total_cooking_time }}
+                    min</strong
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+      
+          <div class="row pt-3">
+            <div class="col-md-9 col-12">
+              <p>{{recipe.description}}</p>
+            </div>
+            <div class="col-md-3 col-12 nutrition-info">
+              <ul>
+                <li class="p-2">Calories: {{recipe.calories}}</li>
+                <li class="p-2">Protein: {{recipe.protein}}</li>
+                <li class="p-2">Carbohydrates: {{recipe.carbohydrates}}</li>
+                <li class="p-2">Cholesterol: {{recipe.cholesterol}}</li>
+              </ul>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <h4 class="font-weight-bold">Ingredients</h4>
+              <p>{{recipe.ingredients}}</p>
+            </div>
+            <div class="col-md-6 col-12">
+              <h4 class="font-weight-bold">Directions</h4>
+              <p>{{recipe.directions}}</p>
+            </div>
+          </div>
+       
         </div>
         {% endfor %}
       </div>
