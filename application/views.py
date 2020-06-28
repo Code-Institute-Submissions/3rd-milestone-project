@@ -42,13 +42,13 @@ def recipes():
         
         total_recipes = filtered_recipes.count()
 
-        return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name) 
+        return render_template('recipes.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name) 
 
     # Count number of recipes
     total_recipes = recipes.count()
     
     # Render html, giving its title and passing in recipes
-    return render_template('test.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form)
+    return render_template('recipes.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form)
 
 # ------ GET ALL RECIPES BY USER ------ #
 @app.route('/user/<author>')
