@@ -56,4 +56,5 @@ class AddRecipeForm(FlaskForm):
 class searchForm(FlaskForm):
     search_text             = StringField('Search in title')
     category_name           = SelectField('Category', choices=[("", "---")] + category_choices)
+    max_total_time          = IntegerField('Max. cooking time in minutes', validators=[DataRequired(message="Please enter the minimal cooking time for your recipe.")])       
     submit                  = SubmitField('Submit')

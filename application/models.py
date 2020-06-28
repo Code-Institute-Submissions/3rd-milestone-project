@@ -26,6 +26,7 @@ class Recipe(db.Document):
     directions              = db.StringField()
     preparation_time        = db.IntField()
     cooking_time            = db.IntField()
+    total_cooking_time      = db.IntField()
     calories                = db.DecimalField()
     protein                 = db.DecimalField()
     carbohydrates           = db.DecimalField()

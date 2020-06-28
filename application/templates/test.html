@@ -3,18 +3,50 @@
 <section class="section-recipes">
   <div class="container">
     <div class="mt-2 text-center">
-      <h1>All {{total_recipes}} {{category_name}} recipes</h1>
+      <h1>
+        All {{total_recipes}}
+        <span class="text-lowercase">{{category_name}}</span> recipes
+      </h1>
     </div>
     <hr />
 
-    <form method="GET" action="search" novalidate>
+    <form method="POST" action="" novalidate>
+      {{ form.hidden_tag() }}
       <div class="form-group">
-        {{ form.search_text.label(class="form-control-label") }} {{
-        form.search_text(class="form-control form-control-lg mb-3") }}
+        {{ form.search_text.label(class="form-control-label") }} {% if
+        form.search_text.errors %} {{ form.search_text(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.search_text.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.search_text(class="form-control form-control-lg") }}
+        {% endif %}
       </div>
       <div class="form-group">
-        {{ form.category_name.label(class="form-control-label") }} {{
-        form.category_name(class="form-control form-control-lg") }}
+        {{ form.category_name.label(class="form-control-label") }} {% if
+        form.category_name.errors %} {{ form.category_name(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.category_name.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.category_name(class="form-control form-control-lg")
+        }} {% endif %}
+      </div>
+      <div class="form-group">
+        {{ form.max_total_time.label(class="form-control-label") }} {% if
+        form.max_total_time.errors %} {{ form.max_total_time(class="form-control
+        form-control-lg is-invalid") }}
+        <div class="invalid-feedback">
+          {% for error in form.max_total_time.errors %}
+          <span>{{ error }}</span>
+          {% endfor %}
+        </div>
+        {% else %} {{ form.max_total_time(class="form-control form-control-lg")
+        }} {% endif %}
       </div>
 
       <div class="form-group">

@@ -37,32 +37,36 @@ def recipes():
 
 
 # ------ GET ALL RECIPES ------ #
-@app.route("/test")
+@app.route("/test", methods=['GET', 'POST'])
 def test():
     form = searchForm()
     # Get recipes and order descending so that newest recipes come first
     recipes = Recipe.objects.order_by('-recipe_id')
+
+    if form.validate_on_submit():
+        search_text         = form.search_text.data
+        category_name       = form.category_name.data
+        max_total_time      = form.max_total_time.data
+
+        # If a category choice is not made
+        if category_name == "":
+            # Search query on title and description (case insensitive)
+            filtered_recipes    = Recipe.objects((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)) 
+        
+        # When a category choice is made
+        else: 
+            # Search query on title and description (case insensitive) and category
+            filtered_recipes    = Recipe.objects((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)) 
+        
+        total_recipes = filtered_recipes.count()
+
+        return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name) 
+
     # Count number of recipes
     total_recipes = recipes.count()
     
     # Render html, giving its title and passing in recipes
     return render_template('test.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form)
-
-
-@app.route('/search')
-def search():
-    form                = searchForm()
-    search_text         = request.args.get('search_text')
-    category_name       = request.args.get('category_name')
-
-    if category_name == "":
-        filtered_recipes    = Recipe.objects(Q(title__icontains = search_text) | Q(description__icontains = search_text))
-    else: 
-        filtered_recipes    = Recipe.objects((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name))
-    
-    total_recipes       = filtered_recipes.count()
-
-    return render_template('test.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name)    
 
 # ------ GET ALL RECIPES BY USER ------ #
 @app.route('/user/<author>')
@@ -148,12 +152,15 @@ def add_recipe():
             prefix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
             recipe_image_name = "_".join([prefix, secure_image_name])  
 
+        # Count total cooking time
+        total_cooking_time  = preparation_time + cooking_time   
+
         # Create new instance of recipe
         new_recipe_id   = RecipeID(recipe_id = recipe_id)
         new_recipe      = Recipe(recipe_id = recipe_id, title = title, description = description, category_name = category_name, ingredients = ingredients,\
-                            directions = directions, preparation_time = preparation_time, cooking_time = cooking_time, calories = calories, protein = protein,\
-                            carbohydrates = carbohydrates, cholesterol = cholesterol, author_id = author_id, author = author, recipe_image = recipe_image,\
-                            recipe_image_name = recipe_image_name)
+                            directions = directions, preparation_time = preparation_time, cooking_time = cooking_time, total_cooking_time = total_cooking_time, \
+                            calories = calories, protein = protein, carbohydrates = carbohydrates, cholesterol = cholesterol, author_id = author_id, author = author,\
+                            recipe_image = recipe_image, recipe_image_name = recipe_image_name)
         # Insert record to the DB
         new_recipe_id.save()
         new_recipe.save()
@@ -200,6 +207,9 @@ def edit_recipe(recipe_id):
             recipe.recipe_image         = recipe_image
             recipe.recipe_image_name    = recipe_image_name
 
+        # Count total cooking time
+        total_cooking_time  = preparation_time + cooking_time   
+
         # MongoEngine tracks changes to documents to provide efficient saving. When document exists changes will be updated atomically. 
         # Reference: https://docs.mongoengine.org/guide/document-instances.html#saving-and-deleting-documents
         recipe.save()
@@ -239,9 +249,9 @@ def delete_recipe(recipe_id):
 def recipe(recipe_id):
     recipe  = Recipe.objects.get_or_404(recipe_id = recipe_id)
     title   = recipe.title
-    total_cooking_time = recipe.preparation_time + recipe.cooking_time
+
     # Render html, giving its title and passing in the recipe object
-    return render_template('recipe.html', title = title, recipe = recipe, total_cooking_time = total_cooking_time)
+    return render_template('recipe.html', title = title, recipe = recipe)
 
 # ------ USER ACCOUNT ------ #
 @app.route("/account", methods=['GET', 'POST'])
