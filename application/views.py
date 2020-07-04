@@ -74,7 +74,7 @@ def recipes():
     form = searchForm()
 
     # Set per page for pagination
-    per_page = 2
+    per_page = 6
 
     # Set default page parameter to 1 for pagination
     page = request.args.get('page', 1, type = int)
