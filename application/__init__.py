@@ -1,5 +1,5 @@
 from flask import Flask
-from application.instance.config import Config
+from config import Config
 from flask_mongoengine import MongoEngine
 from flask_login import LoginManager
 
