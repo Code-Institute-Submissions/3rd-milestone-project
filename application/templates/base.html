@@ -99,20 +99,25 @@
               <div class="col-md-3 col-6">
                 <h4>Categories</h4>
                 <ul>
-                  <li><a href="#">Meat</a></li>
-                  <li><a href="#">Seafood</a></li>
-                  <li><a href="#">Vegetarian</a></li>
+                  <li><a href="{{ url_for('meat_recipes') }}">Meat</a></li>
+                  <li><a href="{{ url_for('seafood_recipes') }}">Seafood</a></li>
+                  <li><a href="{{ url_for('vegetarian_recipes') }}">Vegetarian</a></li>
                 </ul>
               </div>
     
               <div class="col-md-3 col-6">
-              <h4>Recent recipes</h4>
-              <ul>
-                <li><a href="#">Meat</a></li>
-                <li><a href="#">Seafood</a></li>
-                <li><a href="#">Vegetarian</a></li>
-              </ul>
-            </div>
+                <h4>Recent recipes</h4>
+                <ul>
+                  {% for r in footer_recipes %}
+                  <li>
+                    <a href="{{ url_for('recipe', recipe_id = r.recipe_id) }}"
+                      >{{r.title}}</a
+                    >
+                  </li>
+              
+                  {% endfor %}
+                </ul>
+              </div>
             <div class="col-md-3 col-6">
                 <h4>Contact</h4>
                 <ul>
@@ -134,7 +139,7 @@
             <div class="row bg-dark">
               <div class="col-12 text-center text-white py-3">
                 Made with <i class="fa fa-heart text-primary"></i> by
-                <a href="index.html">BBQ World</a> <br />
+                <a href="{{ url_for('home') }}">BBQ World</a> <br />
                 <small>&copy; 2020, all Rights Reserved.</small>
               </div>
             </div>

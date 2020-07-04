@@ -66,7 +66,12 @@ def home():
     total_seafood_recipes       = Recipe.objects(category_name = "Seafood").count()
     total_vegetarian_recipes    = Recipe.objects(category_name = "Vegetarian").count()
     total_recipes               = Recipe.objects.count()
-    return render_template('index.html', total_meat_recipes = total_meat_recipes, total_seafood_recipes = total_seafood_recipes, total_vegetarian_recipes = total_vegetarian_recipes, form = form, total_recipes = total_recipes)
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, recipes count (by category), search form and footer recipes
+    return render_template('index.html', total_meat_recipes = total_meat_recipes, total_seafood_recipes = total_seafood_recipes, total_vegetarian_recipes = total_vegetarian_recipes, form = form, total_recipes = total_recipes, footer_recipes = footer_recipes)
 
 # ------ GET ALL RECIPES ------ #
 @app.route("/recipes", methods=['GET', 'POST'])
@@ -121,12 +126,16 @@ def recipes():
                 # Count number of filtered recipes
                 total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)).count()
 
-        return render_template('recipes.html', title = 'Filtered results recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name)
+        footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+        return render_template('recipes.html', title = 'Filtered results recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name, footer_recipes = footer_recipes)
     
     total_recipes = Recipe.objects.count()
 
-    # Render html, giving its title and passing in recipes
-    return render_template('recipes.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form)
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title and passing in recipes, recipes count, search form and footer recipes
+    return render_template('recipes.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form, footer_recipes = footer_recipes)
 
 # ------ GET ALL RECIPES BY USER ------ #
 @app.route('/user/<author>')
@@ -142,9 +151,12 @@ def user_recipes(author):
 
     # Count user's recipes
     total_user_recipes = Recipe.objects(author = author).count()
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
     
-    # Render html, giving its title and passing in the recipe object
-    return render_template('user_recipes.html', title = 'User recipes', user_recipes = user_recipes, total_user_recipes = total_user_recipes, author = author)
+    # Render html, giving its title and passing in the user's recipe object and recipes for footer
+    return render_template('user_recipes.html', title = 'User recipes', user_recipes = user_recipes, total_user_recipes = total_user_recipes, author = author, footer_recipes = footer_recipes)
 
 # ------ GET ALL MEAT RECIPES ------ #
 @app.route("/meat-recipes")
@@ -160,9 +172,12 @@ def meat_recipes():
 
     # Count number of recipes
     total_recipes = Recipe.objects(category_name = "Meat").count()
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
         
-    # Render html, giving its title and passing in recipes
-    return render_template('meat_recipes.html', title = 'All meat recipes', recipes = recipes, total_recipes = total_recipes)
+    # Render html, giving its title, recipes by category, count of category recipes and footer recipes
+    return render_template('meat_recipes.html', title = 'All meat recipes', recipes = recipes, total_recipes = total_recipes, footer_recipes = footer_recipes)
 
 # ------ GET ALL SEAFOOD RECIPES ------ #
 @app.route("/seafood-recipes")
@@ -179,9 +194,12 @@ def seafood_recipes():
 
     # Count number of recipes
     total_recipes = Recipe.objects(category_name = "Seafood").count()
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
         
-    # Render html, giving its title and passing in recipes
-    return render_template('seafood_recipes.html', title = 'All seafood recipes', recipes = recipes, total_recipes = total_recipes)
+    # Render html, giving its title, recipes by category, count of category recipes and footer recipes
+    return render_template('seafood_recipes.html', title = 'All seafood recipes', recipes = recipes, total_recipes = total_recipes, footer_recipes = footer_recipes)
 
 # ------ GET ALL VEGETARIAN RECIPES ------ #
 @app.route("/vegetarian-recipes")
@@ -197,9 +215,12 @@ def vegetarian_recipes():
 
     # Count number of recipes
     total_recipes = Recipe.objects(category_name = "Vegetarian").count()
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
         
-    # Render html, giving its title and passing in recipes
-    return render_template('vegetarian_recipes.html', title = 'All vegetarian recipes', recipes = recipes, total_recipes = total_recipes)
+    # Render html, giving its title, recipes by category, count of category recipes and footer recipes
+    return render_template('vegetarian_recipes.html', title = 'All vegetarian recipes', recipes = recipes, total_recipes = total_recipes, footer_recipes = footer_recipes)
 
 # ------ HELPER ROUTE TO SHOW IMAGES ------ #
 @app.route('/images/<image_name>')
@@ -258,7 +279,12 @@ def add_recipe():
         flash('Your awesome recipe has been added!', 'success')
         # Go to all account page after submitting a recipe
         return redirect(url_for('account'))
-    return render_template('add_recipe.html', title = 'Add recipe', form = form)
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title, passing in the form and footer recipes
+    return render_template('add_recipe.html', title = 'Add recipe', form = form, footer_recipes = footer_recipes)
 
 # ------ EDIT/UPDATE SPECIFIC RECIPE ------ #
 @app.route("/recipe/edit/<int:recipe_id>", methods=['GET', 'POST'])
@@ -319,8 +345,12 @@ def edit_recipe(recipe_id):
         form.protein.data           = recipe.protein       
         form.carbohydrates.data     = recipe.carbohydrates
         form.cholesterol.data       = recipe.cholesterol     
-    # Render html, giving its title and passing in the form
-    return render_template('add_recipe.html', title = 'Edit recipe', form = form)  
+
+    # Getting latest 5 recipes for footer
+    footer_recipes = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title, passing in the form and footer recipes
+    return render_template('add_recipe.html', title = 'Edit recipe', form = form, footer_recipes = footer_recipes)  
 
     # ------ DELETE SPECIFIC RECIPE ------ #
 @app.route("/recipe/delete/<int:recipe_id>")
@@ -341,8 +371,11 @@ def recipe(recipe_id):
     recipe  = Recipe.objects.get_or_404(recipe_id = recipe_id)
     title   = recipe.title
 
-    # Render html, giving its title and passing in the recipe object
-    return render_template('recipe.html', title = title, recipe = recipe)
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title, recipe and footer recipes
+    return render_template('recipe.html', title = title, recipe = recipe, footer_recipes = footer_recipes)
 
 # ------ USER ACCOUNT ------ #
 @app.route("/account", methods=['GET', 'POST'])
@@ -354,8 +387,12 @@ def account():
    
     # Make recipe list by author
     recipe_list = Recipe.objects(author = author)
-     
-    return render_template('account.html', title = 'User account', recipe_list = recipe_list, user_first_name = user_first_name)
+    
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id') 
+
+    # Render html, giving its title, recipe list by author, user's first name and footer recipes
+    return render_template('account.html', title = 'User account', recipe_list = recipe_list, user_first_name = user_first_name, footer_recipes = footer_recipes)
 
 # ------ LOGIN ------ #
 @app.route("/login", methods=['GET', 'POST'])
@@ -384,8 +421,12 @@ def login():
                 return redirect(url_for('account'))
         else:
             flash('Login failed. Please make sure you use the correct username (= e-mail) and password!', 'danger')
-    # Render html, giving its title and passing in the form
-    return render_template('login.html', title = 'Login', form = form)
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title, passing in the form and footer recipes
+    return render_template('login.html', title = 'Login', form = form, footer_recipes = footer_recipes)
 
 # ------ LOGOUT ------ #
 @app.route("/logout")
@@ -418,5 +459,9 @@ def register():
         user.save()
         flash(f'Welcome, we\'re glad to have you here {form.first_name.data}! Please login with your e-mail and password.', 'success')
         return redirect("/login")
-    # Render html, giving its title and passing in the form
-    return render_template("register.html", title = "Register", form = form)
+
+    # Getting latest 5 recipes for footer
+    footer_recipes = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title, passing in the form and footer recipes
+    return render_template("register.html", title = "Register", form = form, footer_recipes = footer_recipes)
