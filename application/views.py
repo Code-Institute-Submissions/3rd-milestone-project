@@ -12,10 +12,17 @@ from mongoengine.queryset.visitor import Q
 @app.route("/home", methods=['GET', 'POST'])
 @app.route("/index", methods=['GET', 'POST'])
 def home():
-
     form = searchForm()
+
+    # Set per page for pagination
+    per_page = 2
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
     # Get recipes and order descending so that newest recipes come first
-    recipes = Recipe.objects.order_by('-recipe_id')
+    recipes = Recipe.objects.order_by('-recipe_id').paginate(page = page, per_page = per_page)
+    
 
     if form.validate_on_submit():
         search_text         = form.search_text.data
@@ -27,26 +34,33 @@ def home():
             
             # Search query on title and description (case insensitive) and max cooking time
             if max_total_time != None:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time))
-           
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).count()
             # Search query on title and description (case insensitive)
             else:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text))
-       
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text)).count()
         # When a category choice is made
         else:
            
             # Search query on title and description (case insensitive), category and max cooking time
             if max_total_time != None:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)) 
-            
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)).count()
             # Search query on title and description (case insensitive) and category 
             else:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)) 
-        
-        total_recipes = filtered_recipes.count()
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)).count()
 
-        return render_template('recipes.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name) 
+        return render_template('recipes.html', title = 'Filter results recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name)
 
     total_meat_recipes          = Recipe.objects(category_name = "Meat").count()
     total_seafood_recipes       = Recipe.objects(category_name = "Seafood").count()
@@ -58,43 +72,59 @@ def home():
 @app.route("/recipes", methods=['GET', 'POST'])
 def recipes():
     form = searchForm()
+
+    # Set per page for pagination
+    per_page = 2
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
     # Get recipes and order descending so that newest recipes come first
-    recipes = Recipe.objects.order_by('-recipe_id')
+    recipes = Recipe.objects.order_by('-recipe_id').paginate(page = page, per_page = per_page)
+    
 
     if form.validate_on_submit():
         search_text         = form.search_text.data
         category_name       = form.category_name.data
         max_total_time      = form.max_total_time.data
+        # Redefine page nummer. Otherwise page number will cause 404 while using pagination
+        page                = 1
 
         # If a category choice is not made
         if category_name == "":
             
             # Search query on title and description (case insensitive) and max cooking time
             if max_total_time != None:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time))
-           
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).paginate(page = page, per_page = per_page, error_out =True)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).count()
             # Search query on title and description (case insensitive)
             else:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text))
-       
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text)).count()
         # When a category choice is made
         else:
            
             # Search query on title and description (case insensitive), category and max cooking time
             if max_total_time != None:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)) 
-            
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)).count()
             # Search query on title and description (case insensitive) and category 
             else:
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)) 
-        
-        total_recipes = filtered_recipes.count()
+                # Pagination of filtered recipes 
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)).paginate(page = page, per_page = per_page)
+                # Count number of filtered recipes
+                total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)).count()
 
-        return render_template('recipes.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name) 
-
-    # Count number of recipes
-    total_recipes = recipes.count()
+        return render_template('recipes.html', title = 'Filtered results recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name)
     
+    total_recipes = Recipe.objects.count()
+
     # Render html, giving its title and passing in recipes
     return render_template('recipes.html', title = 'All recipes', recipes = recipes, total_recipes = total_recipes, form = form)
 
@@ -105,7 +135,7 @@ def user_recipes(author):
     total_user_recipes  = user_recipes.count()
     
     # Render html, giving its title and passing in the recipe object
-    return render_template('user_recipes.html', title = 'test', user_recipes = user_recipes, total_user_recipes = total_user_recipes, author = author)
+    return render_template('user_recipes.html', title = 'User recipes', user_recipes = user_recipes, total_user_recipes = total_user_recipes, author = author)
 
 # ------ GET ALL MEAT RECIPES ------ #
 @app.route("/meat-recipes")
