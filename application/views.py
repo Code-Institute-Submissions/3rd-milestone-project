@@ -96,7 +96,7 @@ def recipes():
             # Search query on title and description (case insensitive) and max cooking time
             if max_total_time != None:
                 # Pagination of filtered recipes 
-                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).paginate(page = page, per_page = per_page, error_out =True)
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).paginate(page = page, per_page = per_page)
                 # Count number of filtered recipes
                 total_recipes       = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)).count()
             # Search query on title and description (case insensitive)
