@@ -15,7 +15,7 @@ def home():
     form = searchForm()
 
     # Set per page for pagination
-    per_page = 2
+    per_page = 6
 
     # Set default page parameter to 1 for pagination
     page = request.args.get('page', 1, type = int)
@@ -74,7 +74,7 @@ def recipes():
     form = searchForm()
 
     # Set per page for pagination
-    per_page = 6
+    per_page = 2
 
     # Set default page parameter to 1 for pagination
     page = request.args.get('page', 1, type = int)
@@ -131,8 +131,17 @@ def recipes():
 # ------ GET ALL RECIPES BY USER ------ #
 @app.route('/user/<author>')
 def user_recipes(author):
-    user_recipes        = Recipe.objects(author = author)
-    total_user_recipes  = user_recipes.count()
+    # Set per page for pagination
+    per_page = 6
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
+    # Get recipe and order descending so that newest recipes come first
+    user_recipes = Recipe.objects(author = author).order_by('-recipe_id').paginate(page = page, per_page = per_page)
+
+    # Count user's recipes
+    total_user_recipes = Recipe.objects(author = author).count()
     
     # Render html, giving its title and passing in the recipe object
     return render_template('user_recipes.html', title = 'User recipes', user_recipes = user_recipes, total_user_recipes = total_user_recipes, author = author)
@@ -140,8 +149,15 @@ def user_recipes(author):
 # ------ GET ALL MEAT RECIPES ------ #
 @app.route("/meat-recipes")
 def meat_recipes():
+    # Set per page for pagination
+    per_page = 6
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
     # Get recipe and order descending so that newest recipes come first
-    recipes = Recipe.objects(category_name = "Meat").order_by('-recipe_id')
+    recipes = Recipe.objects(category_name = "Meat").order_by('-recipe_id').paginate(page = page, per_page = per_page)
+
     # Count number of recipes
     total_recipes = Recipe.objects(category_name = "Meat").count()
         
@@ -151,8 +167,16 @@ def meat_recipes():
 # ------ GET ALL SEAFOOD RECIPES ------ #
 @app.route("/seafood-recipes")
 def seafood_recipes():
+    # Set per page for pagination
+    per_page = 6
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
+
     # Get recipe and order descending so that newest recipes come first
-    recipes = Recipe.objects(category_name = "Seafood").order_by('-recipe_id')
+    recipes = Recipe.objects(category_name = "Seafood").order_by('-recipe_id').paginate(page = page, per_page = per_page)
+
     # Count number of recipes
     total_recipes = Recipe.objects(category_name = "Seafood").count()
         
@@ -162,8 +186,15 @@ def seafood_recipes():
 # ------ GET ALL VEGETARIAN RECIPES ------ #
 @app.route("/vegetarian-recipes")
 def vegetarian_recipes():
+    # Set per page for pagination
+    per_page = 6
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
     # Get recipe and order descending so that newest recipes come first
-    recipes = Recipe.objects(category_name = "Vegetarian").order_by('-recipe_id')
+    recipes = Recipe.objects(category_name = "Vegetarian").order_by('-recipe_id').paginate(page = page, per_page = per_page)
+
     # Count number of recipes
     total_recipes = Recipe.objects(category_name = "Vegetarian").count()
         

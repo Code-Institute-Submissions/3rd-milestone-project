@@ -8,7 +8,7 @@
     <hr />
 
     <div class="row">
-      {% for recipe in user_recipes %}
+      {% for recipe in user_recipes.items %}
       <div class="col-lg-4 my-3">
         <div class="card h-100">
           <div class="card-header">
@@ -49,6 +49,26 @@
         </div>
       </div>
       {% endfor %}
+    </div>
+    <div class="pagination justify-content-center">
+      <!-- right_current includes current, therefore +1 -->
+      {% for page_num in user_recipes.iter_pages(left_edge = 1, right_edge = 1,
+      left_current = 2, right_current = 3) %} {% if page_num %} {% if
+      user_recipes.page == page_num %}
+      <a
+        class="btn btn-success mb-3 mx-2"
+        href="{{ url_for('recipes', page=page_num) }}"
+        >{{ page_num }}</a
+      >
+      {% else %}
+      <a
+        class="btn btn-outline-success mb-3 mx-1"
+        href="{{ url_for('recipes', page=page_num) }}"
+        >{{ page_num }}</a
+      >
+      {% endif %}
+      <!-- Show None values from iter_pages as ... -->
+      {% else %} ... {% endif %} {% endfor %}
     </div>
   </div>
 </section>
