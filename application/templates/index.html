@@ -15,7 +15,71 @@
 </section>
 
 <!-- Categories section -->
-<section class="py-5 bg-light-grey">
+<section class="section-search">
+  <div class="container">
+    <h2 class="text-info pt-3">Search for your favorite recipe!</h2>
+    <p>
+      We have {{ total_recipes }} awesome recipes for you waiting to be cooked.
+    </p>
+    <form method="POST" action="" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="row">
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.search_text.label(class="form-control-label") }} {% if
+            form.search_text.errors %} {{ form.search_text(class="form-control
+            form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.search_text.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.search_text(class="form-control form-control-lg")
+            }} {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.category_name.label(class="form-control-label") }} {% if
+            form.category_name.errors %} {{
+            form.category_name(class="form-control form-control-lg is-invalid")
+            }}
+            <div class="invalid-feedback">
+              {% for error in form.category_name.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.category_name(class="form-control
+            form-control-lg") }} {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.max_total_time.label(class="form-control-label") }} {% if
+            form.max_total_time.errors %} {{
+            form.max_total_time(class="form-control form-control-lg is-invalid")
+            }}
+            <div class="invalid-feedback">
+              {% for error in form.max_total_time.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.max_total_time(class="form-control
+            form-control-lg") }} {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.submit(class="btn btn-outline-success btn-lg btn_filter") }}
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- Categories section -->
+<section class="py-5 bg-light-grey section-categories">
   <div class="container">
     <div class="row">
       <div class="col-md-4">

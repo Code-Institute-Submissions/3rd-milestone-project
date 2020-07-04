@@ -54,7 +54,7 @@ class AddRecipeForm(FlaskForm):
 
 
 class searchForm(FlaskForm):
-    search_text             = StringField('Search in title')
+    search_text             = StringField('Text search')
     category_name           = SelectField('Category', choices=[("", "---")] + category_choices)
     max_total_time          = IntegerField('Max. cooking time (minutes)', validators=[Optional()])       
     submit                  = SubmitField('Search')

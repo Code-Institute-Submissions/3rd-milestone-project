@@ -8,15 +8,51 @@ import datetime
 from flask_paginate import Pagination, get_page_parameter
 from mongoengine.queryset.visitor import Q
 
-@app.route("/")
-@app.route("/home")
-@app.route("/index")
+@app.route("/", methods=['GET', 'POST'])
+@app.route("/home", methods=['GET', 'POST'])
+@app.route("/index", methods=['GET', 'POST'])
 def home():
+
+    form = searchForm()
+    # Get recipes and order descending so that newest recipes come first
+    recipes = Recipe.objects.order_by('-recipe_id')
+
+    if form.validate_on_submit():
+        search_text         = form.search_text.data
+        category_name       = form.category_name.data
+        max_total_time      = form.max_total_time.data
+
+        # If a category choice is not made
+        if category_name == "":
+            
+            # Search query on title and description (case insensitive) and max cooking time
+            if max_total_time != None:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time))
+           
+            # Search query on title and description (case insensitive)
+            else:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text))
+       
+        # When a category choice is made
+        else:
+           
+            # Search query on title and description (case insensitive), category and max cooking time
+            if max_total_time != None:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)) 
+            
+            # Search query on title and description (case insensitive) and category 
+            else:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)) 
+        
+        total_recipes = filtered_recipes.count()
+
+        return render_template('recipes.html', title = 'All recipes', form = form, recipes = filtered_recipes, total_recipes = total_recipes, category_name = category_name) 
 
     total_meat_recipes          = Recipe.objects(category_name = "Meat").count()
     total_seafood_recipes       = Recipe.objects(category_name = "Seafood").count()
     total_vegetarian_recipes    = Recipe.objects(category_name = "Vegetarian").count()
-    return render_template('index.html', total_meat_recipes = total_meat_recipes, total_seafood_recipes = total_seafood_recipes, total_vegetarian_recipes = total_vegetarian_recipes)
+    total_recipes               = Recipe.objects.count()
+    return render_template('index.html', total_meat_recipes = total_meat_recipes, total_seafood_recipes = total_seafood_recipes, total_vegetarian_recipes = total_vegetarian_recipes, form = form, total_recipes = total_recipes)
 
 # ------ GET ALL RECIPES ------ #
 @app.route("/recipes", methods=['GET', 'POST'])
