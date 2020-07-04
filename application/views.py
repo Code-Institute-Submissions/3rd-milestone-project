@@ -5,7 +5,6 @@ from application.models import Recipe, User, RecipeID
 from flask_login import login_user, current_user, logout_user, login_required
 from werkzeug.utils import secure_filename
 import datetime
-from flask_paginate import Pagination, get_page_parameter
 from mongoengine.queryset.visitor import Q
 
 @app.route("/", methods=['GET', 'POST'])
