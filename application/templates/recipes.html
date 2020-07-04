@@ -3,13 +3,71 @@
 <section class="section-recipes">
   <div class="container">
     <div class="mt-2 text-center">
-      <h1>All {{total_recipes}} recipes</h1>
+      <h1>
+        All {{total_recipes}}
+        <span class="text-lowercase">{{category_name}}</span> recipes
+      </h1>
     </div>
     <hr />
 
+    <form method="POST" action="" novalidate>
+      {{ form.hidden_tag() }}
+      <div class="row">
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.search_text.label(class="form-control-label") }} {% if
+            form.search_text.errors %} {{ form.search_text(class="form-control
+            form-control-lg is-invalid") }}
+            <div class="invalid-feedback">
+              {% for error in form.search_text.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.search_text(class="form-control form-control-lg")
+            }} {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.category_name.label(class="form-control-label") }} {% if
+            form.category_name.errors %} {{
+            form.category_name(class="form-control form-control-lg is-invalid")
+            }}
+            <div class="invalid-feedback">
+              {% for error in form.category_name.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.category_name(class="form-control
+            form-control-lg") }} {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.max_total_time.label(class="form-control-label") }} {% if
+            form.max_total_time.errors %} {{
+            form.max_total_time(class="form-control form-control-lg is-invalid")
+            }}
+            <div class="invalid-feedback">
+              {% for error in form.max_total_time.errors %}
+              <span>{{ error }}</span>
+              {% endfor %}
+            </div>
+            {% else %} {{ form.max_total_time(class="form-control
+            form-control-lg") }} {% endif %}
+          </div>
+        </div>
+        <div class="col-sm-12 col-lg-3">
+          <div class="form-group">
+            {{ form.submit(class="btn btn-outline-success btn-lg btn_filter") }}
+          </div>
+        </div>
+      </div>
+    </form>
+
     <div class="row">
       {% for recipe in recipes %}
-      <div class="col-sm-12 col-md-4 my-3">
+      <div class="col-lg-4 my-3">
         <div class="card h-100">
           <div class="card-header">
             <i class="fa fa-user-circle pr-2"></i

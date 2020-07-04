@@ -32,13 +32,24 @@ def recipes():
 
         # If a category choice is not made
         if category_name == "":
+            
+            # Search query on title and description (case insensitive) and max cooking time
+            if max_total_time != None:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time))
+           
             # Search query on title and description (case insensitive)
-            filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(total_cooking_time__lte = max_total_time)) 
-        
+            else:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text))
         # When a category choice is made
-        else: 
-            # Search query on title and description (case insensitive) and category
-            filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)) 
+        else:
+           
+            # Search query on title and description (case insensitive), category and max cooking time
+            if max_total_time != None:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name) & Q(total_cooking_time__lte = max_total_time)) 
+            
+            # Search query on title and description (case insensitive) and category 
+            else:
+                filtered_recipes    = Recipe.objects.order_by('-recipe_id')((Q(title__icontains = search_text) | Q(description__icontains = search_text)) & Q(category_name = category_name)) 
         
         total_recipes = filtered_recipes.count()
 

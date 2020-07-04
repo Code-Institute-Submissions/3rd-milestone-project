@@ -57,6 +57,10 @@ body {
   bottom: 0;
 }
 
+.btn_filter {
+  margin-top: 2rem;
+}
+
 /* Single recipe */
 .recipe-image img {
   width: 100%;

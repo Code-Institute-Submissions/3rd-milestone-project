@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, BooleanField, IntegerField, DecimalField, TextAreaField, SelectField
-from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError, Optional
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 from application.models import User, Recipe
 
@@ -56,5 +56,5 @@ class AddRecipeForm(FlaskForm):
 class searchForm(FlaskForm):
     search_text             = StringField('Search in title')
     category_name           = SelectField('Category', choices=[("", "---")] + category_choices)
-    max_total_time          = IntegerField('Max. cooking time in minutes', validators=[DataRequired(message="Please enter the maximum cooking time for your recipe.")])       
-    submit                  = SubmitField('Submit')
+    max_total_time          = IntegerField('Max. cooking time (minutes)', validators=[Optional()])       
+    submit                  = SubmitField('Search')
