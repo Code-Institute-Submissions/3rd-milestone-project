@@ -40,6 +40,7 @@ def recipes():
             # Search query on title and description (case insensitive)
             else:
                 filtered_recipes    = Recipe.objects.order_by('-recipe_id')(Q(title__icontains = search_text) | Q(description__icontains = search_text))
+       
         # When a category choice is made
         else:
            
