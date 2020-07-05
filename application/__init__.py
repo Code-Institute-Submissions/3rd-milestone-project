@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from config import Config
 from flask_mongoengine import MongoEngine
@@ -6,9 +7,18 @@ from flask_login import LoginManager
 # Instantiated flask application
 app = Flask(__name__)
 
-app.config.from_object(Config)
+# Secret key in environment variables
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY') 
 
-# Local MongoDB
+# Setting up DB connection to MongoDB Atlas via environment variables in Heroku
+MONGODB_HOST = os.environ.get('MONGODB_HOST') 
+
+app.config['MONGODB_SETTINGS'] = {
+    'db': 'db_recipe',
+    'host': MONGODB_HOST 
+}
+
+# Initiating MongoEngine
 db = MongoEngine()
 db.init_app(app)
 
