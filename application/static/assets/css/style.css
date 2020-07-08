@@ -17,6 +17,10 @@ body {
   -webkit-box-orient: vertical;
 }
 
+.word-wrap {
+  word-wrap: break-word;
+}
+
 /* Navigation */
 .navbar-brand img {
   height: 5vh;
