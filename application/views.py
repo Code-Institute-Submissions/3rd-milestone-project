@@ -377,7 +377,7 @@ def recipe(recipe_id):
     return render_template('recipe.html', title = title, recipe = recipe, footer_recipes = footer_recipes)
 
 # ------ USER ACCOUNT ------ #
-@app.route("/account", methods=['GET', 'POST'])
+@app.route("/account")
 # Login is required for account page
 @login_required
 def account():
