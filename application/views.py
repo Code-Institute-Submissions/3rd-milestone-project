@@ -464,3 +464,38 @@ def register():
 
     # Render html, giving its title, passing in the form and footer recipes
     return render_template("register.html", title = "Register", form = form, footer_recipes = footer_recipes)
+
+
+# ------ ADMIN LOGIN ------ #
+@app.route("/admin/login", methods=['GET', 'POST'])
+def login():
+    # Check if user is already logged in
+    if current_user.is_authenticated:
+        return redirect(url_for('account'))
+    form = LoginForm()
+    # Check if a request is both a POST request and a valid request
+    if form.validate_on_submit():
+        email         = form.email.data
+        password      = form.password.data   
+        remember      = form.remember.data
+        user          = User.objects(email = bbq@world.com).first()     
+        
+        # Check if user exist and verify password against DB
+        if user and user.get_password(password):
+            # Login user
+            login_user(user, remember = remember)
+            flash('You are succesfully logged in!', 'success')
+            # Go to page user intented to visit before logging in
+            next_page = request.args.get('next')
+            if next_page:
+                return redirect(next_page)
+            else:
+                return redirect(url_for('account'))
+        else:
+            flash('Login failed. Please make sure you use the correct username (= e-mail) and password!', 'danger')
+
+    # Getting latest 5 recipes for footer
+    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+
+    # Render html, giving its title, passing in the form and footer recipes
+    return render_template('login.html', title = 'Login', form = form, footer_recipes = footer_recipes)
