@@ -465,10 +465,9 @@ def register():
     # Render html, giving its title, passing in the form and footer recipes
     return render_template("register.html", title = "Register", form = form, footer_recipes = footer_recipes)
 
-
-# ------ ADMIN LOGIN ------ #
+    # ------ ADMIN LOGIN ------ #
 @app.route("/admin/login", methods=['GET', 'POST'])
-def login():
+def admin_login():
     # Check if user is already logged in
     if current_user.is_authenticated:
         return redirect(url_for('account'))
@@ -485,12 +484,6 @@ def login():
             # Login user
             login_user(user, remember = remember)
             flash('You are succesfully logged in!', 'success')
-            # Go to page user intented to visit before logging in
-            next_page = request.args.get('next')
-            if next_page:
-                return redirect(next_page)
-            else:
-                return redirect(url_for('account'))
         else:
             flash('Login failed. Please make sure you use the correct username (= e-mail) and password!', 'danger')
 
@@ -498,4 +491,4 @@ def login():
     footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
 
     # Render html, giving its title, passing in the form and footer recipes
-    return render_template('login.html', title = 'Login', form = form, footer_recipes = footer_recipes)
+    return render_template('admin_login.html', title = 'Admin login', form = form, footer_recipes = footer_recipes)
