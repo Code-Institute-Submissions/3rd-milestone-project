@@ -497,3 +497,43 @@ def admin_login():
 
     # Render html, giving its title, passing in the form and footer recipes
     return render_template('admin_login.html', title = 'Admin login', form = form, footer_recipes = footer_recipes)
+
+# ------ ADMIN ACCOUNT ------ #
+@app.route("/admin/account")
+# Login is required for admin account page
+@login_required
+def admin_account():
+    # Set per page for pagination
+    per_page = 6
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
+
+    author              = current_user.username
+    user_first_name     = current_user.first_name 
+   
+    # Number of users
+    user_count = User.objects.count()
+
+    # Number of recipes
+    recipe_count = Recipe.objects.count()
+
+    # Average recipes per user
+    average_recipe_per_user = round(recipe_count / user_count, 1)
+
+    # Users with most recipes
+    top_users = Recipe.objects.aggregate([
+        {"$group" : {"_id" : "$author", "count" : {"$sum" : 1 }}},
+        { "$sort" : {"count" : -1}},
+        { "$limit" : 3}
+    ])
+
+    # Make recipe list by author
+    recipe_list = Recipe.objects.paginate(page = page, per_page = per_page)
+    
+    # Getting latest 5 recipes for footer
+    footer_recipes = Recipe.objects[:5].order_by('-recipe_id') 
+
+    # Render html, giving its title, recipe list by author, user's first name and footer recipes
+    return render_template('admin_account.html', title = 'Admin account', recipe_list = recipe_list, user_first_name = user_first_name, footer_recipes = footer_recipes,\
+                            user_count = user_count, recipe_count = recipe_count, average_recipe_per_user = average_recipe_per_user, top_users = top_users)

@@ -1,0 +1,152 @@
+{% extends 'base.html'%} {% block content %} {% include 'flash_messages.html' %}
+<section class="section-account">
+  <div class="container mb-3">
+    <div class="mt-2">
+      <h1>Welcome {{user_first_name}}</h1>
+    </div>
+    <hr />
+    <p>Here you can view statistics and edit or delete recipes.</p>
+    <h2>Statistics</h2>
+    <h4>Top 3 users</h4>
+
+    <ol>
+      {% for user in top_users %}
+      <li>{{user._id}} has {{user.count}} recipes</li>
+      {% endfor %}
+    </ol>
+
+    <h4>Overall statistics</h4>
+    <ul>
+      <li>{{recipe_count}} recipes</li>
+      <li>{{user_count}} users</li>
+      <li>Average of {{average_recipe_per_user}} recipes per user</li>
+    </ul>
+
+    <h3>All recipes</h3>
+
+    {% if recipe_list %}
+    <div class="accordion" id="my-recipe-accordion">
+      {% for recipe in recipe_list.items %}
+      <div class="card">
+        <div class="card-header" id="heading{{ recipe.recipe_id }}">
+          <div class="row">
+            <div class="col-12">
+              <h2 class="mb-0 my-recipe-title">
+                <button
+                  type="button"
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapse-item{{ recipe.recipe_id }}"
+                >
+                  <i class="fa fa-plus mr-2"></i> {{ recipe.title }}
+                </button>
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div
+          id="collapse-item{{ recipe.recipe_id }}"
+          class="collapse"
+          aria-labelledby="heading{{ recipe.recipe_id }}"
+          data-parent="#my-recipe-accordion"
+        >
+          <div class="row recipe-image">
+            <div class="col-12">
+              <img
+                src="/images/{{recipe.recipe_image_name }}"
+                alt="{{recipe.title}}"
+              />
+            </div>
+          </div>
+          <div class="bg-primary">
+            <div class="row">
+              <div class="col-md-4 col-12">
+                <h5 class="pt-3 text-center text-white">Preparation time:</h5>
+                <p class="text-center text-white font-weight-bold">
+                  <strong
+                    ><i class="fa fa-clock-o mr-2"></i
+                    >{{recipe.preparation_time}} min</strong
+                  >
+                </p>
+              </div>
+              <div class="col-md-4 col-12">
+                <h5 class="pt-3 text-center text-white">Cooking time:</h5>
+                <p class="text-center text-white font-weight-bold">
+                  <strong
+                    ><i class="fa fa-clock-o mr-2"></i>{{recipe.cooking_time}}
+                    min</strong
+                  >
+                </p>
+              </div>
+              <div class="col-md-4 col-12">
+                <h5 class="pt-3 text-center text-white">Total time:</h5>
+                <p class="text-center text-white font-weight-bold">
+                  <strong
+                    ><i class="fa fa-clock-o mr-2"></i>{{total_cooking_time }}
+                    min</strong
+                  >
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="row pt-3">
+            <div class="col-md-9 col-12">
+              <p class="word-wrap">{{recipe.description}}</p>
+            </div>
+            <div class="col-md-3 col-12 nutrition-info">
+              <ul>
+                <li class="p-2">Calories: {{recipe.calories}}</li>
+                <li class="p-2">Protein: {{recipe.protein}}</li>
+                <li class="p-2">Carbohydrates: {{recipe.carbohydrates}}</li>
+                <li class="p-2">Cholesterol: {{recipe.cholesterol}}</li>
+              </ul>
+            </div>
+          </div>
+          <hr />
+          <div class="row">
+            <div class="col-md-6 col-12">
+              <h4 class="font-weight-bold">Ingredients</h4>
+              <p class="word-wrap">{{recipe.ingredients}}</p>
+            </div>
+            <div class="col-md-6 col-12">
+              <h4 class="font-weight-bold">Directions</h4>
+              <p class="word-wrap">{{recipe.directions}}</p>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% else %}
+    <a
+      href="{{ url_for('add_recipe') }}"
+      class="btn btn-outline-success"
+      role="button"
+      >Add your recipe</a
+    >
+    {% endif %}
+  </div>
+  <div class="pagination justify-content-center">
+    <!-- right_current includes current, therefore +1 -->
+    {% for page_num in recipe_list.iter_pages(left_edge = 1, right_edge = 1,
+    left_current = 2, right_current = 3) %} {% if page_num %} {% if
+    recipe_list.page == page_num %}
+    <a
+      class="btn btn-success mb-3 mx-2"
+      href="{{ url_for('admin_account', page=page_num) }}"
+      >{{ page_num }}</a
+    >
+    {% else %}
+    <a
+      class="btn btn-outline-success mb-3 mx-1"
+      href="{{ url_for('admin_account', page=page_num) }}"
+      >{{ page_num }}</a
+    >
+    {% endif %}
+    <!-- Show None values from iter_pages as ... -->
+    {% else %} ... {% endif %} {% endfor %}
+  </div>
+</section>
+
+{% endblock %}
