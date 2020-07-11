@@ -78,7 +78,7 @@ def recipes():
     form = searchForm()
 
     # Set per page for pagination
-    per_page = 2
+    per_page = 6
 
     # Set default page parameter to 1 for pagination
     page = request.args.get('page', 1, type = int)
@@ -383,12 +383,18 @@ def recipe(recipe_id):
 def account():
     author              = current_user.username
     user_first_name     = current_user.first_name 
+
+    # Set per page for pagination
+    per_page = 6
+
+    # Set default page parameter to 1 for pagination
+    page = request.args.get('page', 1, type = int)
    
     # Make recipe list by author
-    recipe_list = Recipe.objects(author = author)
+    recipe_list = Recipe.objects(author = author).order_by('-recipe_id').paginate(page = page, per_page = per_page)
     
     # Getting latest 5 recipes for footer
-    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id') 
+    footer_recipes = Recipe.objects[:5].order_by('-recipe_id') 
 
     # Render html, giving its title, recipe list by author, user's first name and footer recipes
     return render_template('account.html', title = 'User account', recipe_list = recipe_list, user_first_name = user_first_name, footer_recipes = footer_recipes)
@@ -422,7 +428,7 @@ def login():
             flash('Login failed. Please make sure you use the correct username (= e-mail) and password!', 'danger')
 
     # Getting latest 5 recipes for footer
-    footer_recipes              = Recipe.objects[:5].order_by('-recipe_id')
+    footer_recipes = Recipe.objects[:5].order_by('-recipe_id')
 
     # Render html, giving its title, passing in the form and footer recipes
     return render_template('login.html', title = 'Login', form = form, footer_recipes = footer_recipes)

@@ -9,7 +9,7 @@
     <p>Here you can edit or delete your recipes.</p>
     {% if recipe_list %}
     <div class="accordion" id="my-recipe-accordion">
-      {% for recipe in recipe_list %}
+      {% for recipe in recipe_list.items %}
       <div class="card">
         <div class="card-header" id="heading{{ recipe.recipe_id }}">
           <div class="row">
@@ -78,7 +78,7 @@
       
           <div class="row pt-3">
             <div class="col-md-9 col-12">
-              <p>{{recipe.description}}</p>
+              <p class="word-wrap">{{recipe.description}}</p>
             </div>
             <div class="col-md-3 col-12 nutrition-info">
               <ul>
@@ -93,11 +93,11 @@
           <div class="row">
             <div class="col-md-6 col-12">
               <h4 class="font-weight-bold">Ingredients</h4>
-              <p>{{recipe.ingredients}}</p>
+              <p class="word-wrap">{{recipe.ingredients}}</p>
             </div>
             <div class="col-md-6 col-12">
               <h4 class="font-weight-bold">Directions</h4>
-              <p>{{recipe.directions}}</p>
+              <p class="word-wrap">{{recipe.directions}}</p>
             </div>
           </div>
        
@@ -113,6 +113,26 @@
       >Add your recipe</a
     >
     {% endif %}
+  </div>
+  <div class="pagination justify-content-center">
+    <!-- right_current includes current, therefore +1 -->
+    {% for page_num in recipe_list.iter_pages(left_edge = 1, right_edge = 1,
+    left_current = 2, right_current = 3) %} {% if page_num %} {% if
+    recipe_list.page == page_num %}
+    <a
+      class="btn btn-success mb-3 mx-2"
+      href="{{ url_for('account', page=page_num) }}"
+      >{{ page_num }}</a
+    >
+    {% else %}
+    <a
+      class="btn btn-outline-success mb-3 mx-1"
+      href="{{ url_for('account', page=page_num) }}"
+      >{{ page_num }}</a
+    >
+    {% endif %}
+    <!-- Show None values from iter_pages as ... -->
+    {% else %} ... {% endif %} {% endfor %}
   </div>
 </section>
 
