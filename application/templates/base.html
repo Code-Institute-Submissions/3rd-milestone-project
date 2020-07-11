@@ -63,7 +63,7 @@
           </li>
             <!-- Show account and logout when user is logged in. If not show login and register links -->
             {% if current_user.is_authenticated %}
-            </li>
+            
             <li class="nav-item">
               <a class="nav-item nav-link" href="{{ url_for('account') }}"
                 ><i class="fa fa-user-circle"></i> Account</a

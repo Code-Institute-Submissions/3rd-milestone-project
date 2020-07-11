@@ -14,18 +14,22 @@
         <div class="card-header" id="heading{{ recipe.recipe_id }}">
           <div class="row">
             <div class="col-md-10">
-            <h2 class="mb-0 my-recipe-title">
-              <button
-                type="button"
-                class="btn btn-link"
-                data-toggle="collapse"
-                data-target="#collapse-item{{ recipe.recipe_id }}"
-              >
-                <i class="fa fa-plus mr-2"></i> {{ recipe.title }}
-              </button></div>
+              <h2 class="mb-0 my-recipe-title">
+                <button
+                  type="button"
+                  class="btn btn-link"
+                  data-toggle="collapse"
+                  data-target="#collapse-item{{ recipe.recipe_id }}"
+                >
+                  <i class="fa fa-plus mr-2"></i>
+                  {{ recipe.title }}
+                </button>
+              </h2>
+            </div>
               <div class="col-md-2 d-flex align-items-center">
-              <a href="{{ url_for('edit_recipe', recipe_id = recipe.recipe_id) }}" class="edit"><i class="fa fa-edit mx-1"></i></a>
-              <a href="{{ url_for('delete_recipe', recipe_id = recipe.recipe_id) }}" class="trash"><i class="fa fa-trash mx-1"></i></a></div>
+                <a href="{{ url_for('edit_recipe', recipe_id = recipe.recipe_id) }}" class="edit"><i class="fa fa-edit mx-1"></i></a>
+                <a href="{{ url_for('delete_recipe', recipe_id = recipe.recipe_id) }}" class="trash"><i class="fa fa-trash mx-1"></i></a>
+              </div>
             </h2>
           </div>
         </div>
