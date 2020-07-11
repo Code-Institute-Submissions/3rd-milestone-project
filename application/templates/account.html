@@ -6,7 +6,7 @@
     </div>
     <hr />
     <p>Here you can edit or delete your recipes.</p>
-    {% if recipe_list %}
+    {% if recipe_list.items %}
     <div class="accordion" id="my-recipe-accordion">
       {% for recipe in recipe_list.items %}
       <div class="card">
