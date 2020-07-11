@@ -24,10 +24,6 @@ body {
   word-wrap: break-word;
 }
 
-.main-container {
-  min-height: calc(100% - footer);
-}
-
 /* Navigation */
 .navbar-brand img {
   height: 5vh;
