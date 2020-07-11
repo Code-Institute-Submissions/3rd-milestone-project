@@ -1,5 +1,4 @@
-{% extends 'base.html'%} {% block content %}
-{% include 'flash_messages.html' %}
+{% extends 'base.html'%} {% block content %} {% include 'flash_messages.html' %}
 <section class="section-account">
   <div class="container mb-3">
     <div class="mt-2">
@@ -26,11 +25,18 @@
                 </button>
               </h2>
             </div>
-              <div class="col-md-2 d-flex align-items-center">
-                <a href="{{ url_for('edit_recipe', recipe_id = recipe.recipe_id) }}" class="edit"><i class="fa fa-edit mx-1"></i></a>
-                <a href="{{ url_for('delete_recipe', recipe_id = recipe.recipe_id) }}" class="trash"><i class="fa fa-trash mx-1"></i></a>
-              </div>
-            </h2>
+            <div class="col-md-2 d-flex align-items-center">
+              <a
+                href="{{ url_for('edit_recipe', recipe_id = recipe.recipe_id) }}"
+                class="edit"
+                ><i class="fa fa-edit mx-1"></i
+              ></a>
+              <a
+                href="{{ url_for('delete_recipe', recipe_id = recipe.recipe_id) }}"
+                class="trash"
+                ><i class="fa fa-trash mx-1"></i
+              ></a>
+            </div>
           </div>
         </div>
         <div
@@ -39,7 +45,6 @@
           aria-labelledby="heading{{ recipe.recipe_id }}"
           data-parent="#my-recipe-accordion"
         >
-
           <div class="row recipe-image">
             <div class="col-12">
               <img
@@ -54,8 +59,8 @@
                 <h5 class="pt-3 text-center text-white">Preparation time:</h5>
                 <p class="text-center text-white font-weight-bold">
                   <strong
-                    ><i class="fa fa-clock-o mr-2"></i>{{recipe.preparation_time}}
-                    min</strong
+                    ><i class="fa fa-clock-o mr-2"></i
+                    >{{recipe.preparation_time}} min</strong
                   >
                 </p>
               </div>
@@ -79,7 +84,7 @@
               </div>
             </div>
           </div>
-      
+
           <div class="row pt-3">
             <div class="col-md-9 col-12">
               <p class="word-wrap">{{recipe.description}}</p>
@@ -104,7 +109,6 @@
               <p class="word-wrap">{{recipe.directions}}</p>
             </div>
           </div>
-       
         </div>
         {% endfor %}
       </div>
@@ -117,28 +121,28 @@
       >Add your recipe</a
     >
     {% endif %}
-  
-  <div class="pagination justify-content-center pt-2">
-    <!-- right_current includes current, therefore +1 -->
-    {% for page_num in recipe_list.iter_pages(left_edge = 1, right_edge = 1,
-    left_current = 2, right_current = 3) %} {% if page_num %} {% if
-    recipe_list.page == page_num %}
-    <a
-      class="btn btn-success mb-3 mx-2"
-      href="{{ url_for('account', page=page_num) }}"
-      >{{ page_num }}</a
-    >
-    {% else %}
-    <a
-      class="btn btn-outline-success mb-3 mx-1"
-      href="{{ url_for('account', page=page_num) }}"
-      >{{ page_num }}</a
-    >
-    {% endif %}
-    <!-- Show None values from iter_pages as ... -->
-    {% else %} ... {% endif %} {% endfor %}
+
+    <div class="pagination justify-content-center pt-2">
+      <!-- right_current includes current, therefore +1 -->
+      {% for page_num in recipe_list.iter_pages(left_edge = 1, right_edge = 1,
+      left_current = 2, right_current = 3) %} {% if page_num %} {% if
+      recipe_list.page == page_num %}
+      <a
+        class="btn btn-success mb-3 mx-2"
+        href="{{ url_for('account', page=page_num) }}"
+        >{{ page_num }}</a
+      >
+      {% else %}
+      <a
+        class="btn btn-outline-success mb-3 mx-1"
+        href="{{ url_for('account', page=page_num) }}"
+        >{{ page_num }}</a
+      >
+      {% endif %}
+      <!-- Show None values from iter_pages as ... -->
+      {% else %} ... {% endif %} {% endfor %}
+    </div>
   </div>
-</div>
 </section>
 
 {% endblock %}
