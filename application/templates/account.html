@@ -113,8 +113,8 @@
       >Add your recipe</a
     >
     {% endif %}
-  </div>
-  <div class="pagination justify-content-center">
+  
+  <div class="pagination justify-content-center pt-2">
     <!-- right_current includes current, therefore +1 -->
     {% for page_num in recipe_list.iter_pages(left_edge = 1, right_edge = 1,
     left_current = 2, right_current = 3) %} {% if page_num %} {% if
@@ -134,6 +134,7 @@
     <!-- Show None values from iter_pages as ... -->
     {% else %} ... {% endif %} {% endfor %}
   </div>
+</div>
 </section>
 
 {% endblock %}
