@@ -39,16 +39,16 @@ class RegistrationForm(FlaskForm):
 # ------ ADD RECIPE FORM ------ #
 class AddRecipeForm(FlaskForm):
     title                   = StringField('Title', validators=[DataRequired(message="Please enter a title for your recipe."), Length(max=50, message="Please keep your title short (max 50 characters)!")])
-    description             = TextAreaField('Description', validators=[DataRequired(message="Please enter a description for your recipe."), Length(min=150, message="Your awesome recipe deserves more text!")])
+    description             = TextAreaField('Description', validators=[DataRequired(message="Please enter a description for your recipe."), Length(min=50, message="Your awesome recipe deserves more text!")])
     category_name           = SelectField('Category', choices=category_choices)
     ingredients             = TextAreaField('Ingredients', validators=[DataRequired(message="Please enter ingredients for your recipe.")])
     directions              = TextAreaField('Directions', validators=[DataRequired(message="Please enter directions for your recipe.")])
     preparation_time        = IntegerField('Preparation time in minutes', validators=[DataRequired(message="Please enter the preparation time for your recipe.")])
     cooking_time            = IntegerField('Cooking time in minutes', validators=[DataRequired(message="Please enter the cooking time for your recipe.")])
     calories                = DecimalField('Calories', validators=[DataRequired(message="Please enter the calories for your recipe.")])
-    protein                 = DecimalField('Protein', validators=[DataRequired(message="Please enter the protein for your recipe.")])
-    carbohydrates           = DecimalField('Carbohydrates', validators=[DataRequired(message="Please enter the carbohydrates for your recipe.")])
-    cholesterol             = DecimalField('Cholesterol', validators=[DataRequired(message="Please enter the cholesterol for your recipe.")])  
+    protein                 = DecimalField('Protein (g)', validators=[DataRequired(message="Please enter the protein for your recipe.")])
+    carbohydrates           = DecimalField('Carbohydrates (g)', validators=[DataRequired(message="Please enter the carbohydrates for your recipe.")])
+    cholesterol             = DecimalField('Cholesterol (mg)', validators=[DataRequired(message="Please enter the cholesterol for your recipe.")])  
     recipe_image            = FileField('Upload recipe image', validators=[FileRequired(), FileAllowed(['jpg','jpeg', 'png', 'gif'], 'Images only please!')])
     submit                  = SubmitField('Submit')
 
