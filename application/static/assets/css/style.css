@@ -64,6 +64,12 @@ body {
 }
 
 /* All recipes */
+.card-img-top {
+  width: 100%;
+  height: 40vh;
+  object-fit: cover;
+}
+
 .footer-links {
   position: absolute;
   bottom: 0;
@@ -85,7 +91,7 @@ body {
   border-bottom: 1px dashed #d3d3d3;
 }
 
-/* My recipe */
+/* Account page */
 .my-recipe-title .edit,
 .trash {
   font-size: 1.2em;
